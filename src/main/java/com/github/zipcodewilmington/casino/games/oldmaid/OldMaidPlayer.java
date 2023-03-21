@@ -1,4 +1,6 @@
 package com.github.zipcodewilmington.casino.games.oldmaid;
 
-public class OldMaidPlayer {
+import com.github.zipcodewilmington.casino.CardPlayer;
+
+public class OldMaidPlayer extends CardPlayer {
 }

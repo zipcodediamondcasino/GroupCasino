@@ -1,4 +1,6 @@
 package com.github.zipcodewilmington.casino.games.yahtzee;
 
-public class YahtzeePlayer {
+import com.github.zipcodewilmington.casino.Player;
+
+public class YahtzeePlayer extends Player {
 }
