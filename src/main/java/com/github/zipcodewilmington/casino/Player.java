@@ -6,16 +6,21 @@ package com.github.zipcodewilmington.casino;
  * All players must have reference to the `ArcadeAccount` used to log into the `Arcade` system.
  * All players are capable of `play`ing a game.
  */
-public interface PlayerInterface {
+public abstract class Player {
     /**
      * @return the `ArcadeAccount` used to log into the `Arcade` system to play this game
      */
-    CasinoAccount getArcadeAccount();
+    CasinoAccount getArcadeAccount() {
+        return null;
+    }
 
     /**
      * Defines how a specific implementation of `PlayerInterface` plays their respective game.
+     *
      * @param <SomeReturnType> specify any return type you would like here
      * @return whatever return value you would like
      */
-    <SomeReturnType> SomeReturnType play();
+    <SomeReturnType> SomeReturnType play() {
+        return null;
+    }
 }
