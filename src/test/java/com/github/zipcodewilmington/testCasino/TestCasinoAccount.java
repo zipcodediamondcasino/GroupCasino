@@ -48,19 +48,33 @@ public class TestCasinoAccount {
     }
     @Test
     public void TestGetCasinoAccountName(){
-
+        CasinoAccount casinoAccount = new CasinoAccount(null, "Nina", null);
+        String expected = "Nina";
+        String actual = casinoAccount.getName();
+        Assert.assertEquals(expected, actual);
     }
     @Test
     public void TestSetCasinoAccountName(){
-
+        CasinoAccount casinoAccount = new CasinoAccount(null, "Nina", null);
+        casinoAccount.setName("Ciaffi");
+        String expected = "Ciaffi";
+        String actual = casinoAccount.getName();
+        Assert.assertEquals(expected, actual);
     }
     @Test
     public void TestGetCasinoAccountPassword(){
-
+        CasinoAccount casinoAccount = new CasinoAccount(null, null, "password");
+        String expected = "password";
+        String actual = casinoAccount.getPassword();
+        Assert.assertEquals(expected, actual);
     }
     @Test
     public void TestSetCasinoAccountPassword(){
-
+        CasinoAccount casinoAccount = new CasinoAccount(null, null, "password");
+        casinoAccount.setPassword("password1");
+        String expected = "password1";
+        String actual = casinoAccount.getPassword();
+        Assert.assertEquals(expected, actual);
     }
     @Test
     public void TestGetCasinoAccountBalance(){
@@ -68,6 +82,10 @@ public class TestCasinoAccount {
     }
     @Test
     public void TestSetCasinoAccountBalance(){
-
+        CasinoAccount casinoAccount = new CasinoAccount(0.00, null, null);
+        casinoAccount.setBalance(100.00);
+        double expected = 100.00;
+        double actual = casinoAccount.getBalance();
+        Assert.assertEquals(expected, actual);
     }
 }
