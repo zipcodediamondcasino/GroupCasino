@@ -7,16 +7,18 @@ import com.github.zipcodewilmington.casino.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class OldMaidGame implements Game {
     ArrayList<OldMaidPlayer> OldMaidPlayers;
     Deck deck;
-
     ArrayList<Card> Hand;
 
-//    public Card pickCard(ArrayList<Card>){
-//        return null;
-//    }
+    public Card pickCard(ArrayList<Card> Hand) {
+        Random random = new Random();
+        int randomIndex = random.nextInt(Hand.size());
+        return Hand.get(randomIndex);
+    }
 
     public ArrayList<Card> matchCard(ArrayList<Card> Hand) {
         ArrayList<Card> removedMatches = new ArrayList<>();
