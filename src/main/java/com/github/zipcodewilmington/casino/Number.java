@@ -32,5 +32,4 @@ public enum Number {
     public String toString(){
         return rankName;
     }
-
 }
