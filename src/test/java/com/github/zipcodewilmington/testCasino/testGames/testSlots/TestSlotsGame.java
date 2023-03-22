@@ -12,7 +12,7 @@ public class TestSlotsGame {
 
     @Test
     void testConstructor() {
-        SlotsGame g = new SlotsGame(expected);
+        SlotsGame g = new SlotsGame();
 
 
         Assert.assertTrue(g instanceof SlotsGame);

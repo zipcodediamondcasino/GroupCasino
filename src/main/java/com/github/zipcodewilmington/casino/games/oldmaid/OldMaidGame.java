@@ -33,6 +33,11 @@ public class OldMaidGame implements Game {
     }
 
     @Override
+    public ArrayList<Player> getPlayers() {
+        return null;
+    }
+
+    @Override
     public void run() {
 
     }
