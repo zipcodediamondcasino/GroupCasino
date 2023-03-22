@@ -16,7 +16,7 @@ public class SlotsGame implements Game, BettingGame {
 
     @Override
     public void add(Player player) {
-
+        this.player = (SlotsPlayer) player;
     }
 
     @Override
@@ -26,7 +26,9 @@ public class SlotsGame implements Game, BettingGame {
 
     @Override
     public ArrayList<Player> getPlayers() {
-        return null;
+        ArrayList<Player> player = new ArrayList<>();
+        player.add(this.player);
+        return player;
     }
 
     @Override
