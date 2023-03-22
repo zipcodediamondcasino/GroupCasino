@@ -4,12 +4,15 @@ import com.github.zipcodewilmington.casino.BettingGame;
 import com.github.zipcodewilmington.casino.Game;
 import com.github.zipcodewilmington.casino.Player;
 
+import java.util.ArrayList;
+
 /**
  * Created by leon on 7/21/2020.
  */
 public class SlotsGame implements Game, BettingGame {
 
     SlotsPlayer player;
+    int pool;
 
     public SlotsGame(SlotsPlayer player) {
 
@@ -26,6 +29,11 @@ public class SlotsGame implements Game, BettingGame {
     }
 
     @Override
+    public ArrayList<Player> getPlayers() {
+        return null;
+    }
+
+    @Override
     public void run() {
 
     }
@@ -33,5 +41,13 @@ public class SlotsGame implements Game, BettingGame {
     @Override
     public boolean bet(Player player, int amount, int minimum) {
         return false;
+    }
+
+    public int resolve(int[] ints) {
+        return 0;
+    }
+
+    public int[] pull() {
+        return null;
     }
 }
