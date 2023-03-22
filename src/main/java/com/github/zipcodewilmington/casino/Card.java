@@ -1,26 +1,30 @@
 package com.github.zipcodewilmington.casino;
 import com.github.zipcodewilmington.casino.Number;
-import com.github.zipcodewilmington.casino.Suits;
+import com.github.zipcodewilmington.casino.Suit;
 public class Card {
 
-    private Suits suit;
+    private Suit suit;
     private Number rank;
 
 
-    public Card(Number rank, Suits suit){
+    public Card(Number rank, Suit suit) {
         this.rank = rank;
         this.suit = suit;
     }
 
-    public int getValue(){
-        return  rank.rankValue;
+    public int getValue() {
+        return rank.rankValue;
     }
 
-    public Suits getSuit(){
+    public Suit getSuit() {
         return suit;
     }
 
-    public int getRank(){
-        return rank.getRank();
+    public Number getRank() {
+        return rank;
+    }
+
+    public String toString() {
+        return ("[" + rank + " of " + suit + "] (" + this.getValue() + ")");
     }
 }

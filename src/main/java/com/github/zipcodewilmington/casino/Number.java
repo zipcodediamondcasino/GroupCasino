@@ -23,12 +23,13 @@ public enum Number {
 
 
     Number(String rankName,int  rankValue) {
-        this.rankValue = rankValue;
         this.rankName = rankName;
+        this.rankValue = rankValue;
+
     }
 
-    public int getRank(){
-        return rankValue;
+    public String toString(){
+        return rankName;
     }
 
 }

@@ -1,19 +1,19 @@
 package com.github.zipcodewilmington.casino;
 
-public enum Suits {
+public enum Suit {
     DIAMONDS ("Diamonds"),
     SPADES("Spades"),
     CLUBS("Clubs"),
     HEARTS("Hearts");
 
-    private final String suitText;
+    private final String suitName;
 
-    Suits(String suitText) {
-        this.suitText = suitText;
+    Suit(String suitName) {
+        this.suitName = suitName;
     }
 
-    public String printSuit(){
-        return suitText;
+    public String toString(){
+        return suitName;
     }
 }
 
