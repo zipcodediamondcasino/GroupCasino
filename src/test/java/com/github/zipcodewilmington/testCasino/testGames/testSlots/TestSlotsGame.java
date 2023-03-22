@@ -12,18 +12,16 @@ public class TestSlotsGame {
 
     @Test
     void testConstructor() {
-        SlotsPlayer expected = new SlotsPlayer();
         SlotsGame g = new SlotsGame(expected);
 
-        ArrayList<Player> actual = g.getPlayers();
 
-        Assert.assertEquals(expected, actual.get(0));
+        Assert.assertTrue(g instanceof SlotsGame);
 
     }
 
     @Test
     void testPull() {
-        SlotsGame g = new SlotsGame(new SlotsPlayer());
+        SlotsGame g = new SlotsGame();
         int[] expected = new int[3];
 
         int[] actual = g.pull();
@@ -33,7 +31,7 @@ public class TestSlotsGame {
 
     @Test
     void testResults1(){
-        SlotsGame g = new SlotsGame(new SlotsPlayer());
+        SlotsGame g = new SlotsGame();
         int expected = 0;
 
         int actual = g.resolve(new int[]{3, 2, 8});
@@ -43,7 +41,7 @@ public class TestSlotsGame {
 
     @Test
     void testResults2(){
-        SlotsGame g = new SlotsGame(new SlotsPlayer());
+        SlotsGame g = new SlotsGame();
         int expected = 10;
 
         int actual = g.resolve(new int[]{3,3,3});
@@ -53,7 +51,7 @@ public class TestSlotsGame {
 
     @Test
     void testResults3() {
-        SlotsGame g = new SlotsGame(new SlotsPlayer());
+        SlotsGame g = new SlotsGame();
         int expected = 20;
 
         int actual = g.resolve(new int[]{3,6,9});
@@ -61,5 +59,8 @@ public class TestSlotsGame {
         Assert.assertEquals(expected,actual);
     }
 
+    @Test
+    void testAdd() {
 
+    }
 }

@@ -14,10 +14,6 @@ public class SlotsGame implements Game, BettingGame {
     SlotsPlayer player;
     int pool;
 
-    public SlotsGame(SlotsPlayer player) {
-
-    }
-
     @Override
     public void add(Player player) {
 
