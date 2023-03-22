@@ -12,8 +12,12 @@ public class Card {
         this.suit = suit;
     }
 
-    public String getSuit(){
-        return suit.printSuit();
+    public int getValue(){
+        return  rank.rankValue;
+    }
+
+    public Suits getSuit(){
+        return suit;
     }
 
     public int getRank(){
