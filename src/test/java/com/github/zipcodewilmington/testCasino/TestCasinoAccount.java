@@ -88,4 +88,3 @@ public class TestCasinoAccount {
         double actual = casinoAccount.getBalance();
         Assert.assertEquals(expected, actual, -1);
     }
-}
