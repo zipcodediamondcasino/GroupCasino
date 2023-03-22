@@ -11,17 +11,17 @@ public class OldMaidGame implements Game {
     ArrayList<OldMaidPlayer> OldMaidPlayers;
     Deck deck;
 
-    public Card pickCard(ArrayList<Card>){
-        return null;
-    }
+//    public Card pickCard(ArrayList<Card>){
+//        return null;
+//    }
 
-    public ArrayList<Card> matchCard(ArrayList<Card>){
-        return null;
-    }
-
-    public ArrayList<Card> shuffle(ArrayList<Card>){
-        return null;
-    }
+//    public ArrayList<Card> matchCard(ArrayList<Card>){
+//        return null;
+//    }
+//
+//    public ArrayList<Card> shuffle(ArrayList<Card>){
+//        return null;
+//    }
     @Override
     public void add(Player player) {
 
