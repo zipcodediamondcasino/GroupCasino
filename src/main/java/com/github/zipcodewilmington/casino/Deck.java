@@ -49,7 +49,6 @@ public class Deck {
             }
         }
     }
-
     public void shuffled(){
         ArrayList<Card> shuffled = new ArrayList<Card>();
         while (deck.size()>0){
@@ -59,4 +58,5 @@ public class Deck {
         deck = shuffled;
     }
 }//testing new commit
+
 
