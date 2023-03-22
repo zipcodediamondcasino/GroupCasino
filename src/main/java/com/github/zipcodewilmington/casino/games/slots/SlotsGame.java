@@ -8,6 +8,13 @@ import com.github.zipcodewilmington.casino.Player;
  * Created by leon on 7/21/2020.
  */
 public class SlotsGame implements Game, BettingGame {
+
+    SlotsPlayer player;
+
+    public SlotsGame(SlotsPlayer player) {
+
+    }
+
     @Override
     public void add(Player player) {
 
@@ -21,5 +28,10 @@ public class SlotsGame implements Game, BettingGame {
     @Override
     public void run() {
 
+    }
+
+    @Override
+    public boolean bet(Player player, int amount, int minimum) {
+        return false;
     }
 }
