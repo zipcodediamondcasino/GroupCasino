@@ -16,6 +16,21 @@ public class TestOldMaidGame {
     }
 
     @Test
+    public void testMatchCard(){
+        ArrayList<Card> Hand = new ArrayList<>();
+        Hand.add(new Card("Hearts", 3));
+
+        ArrayList<Card> expectedRemoved = new ArrayList<>();
+
+        ArrayList<Card> expectedRemaining = new ArrayList<>();
+
+        ArrayList<Card> actualRemoved = matchCard(hand);
+
+        Assert.assertEquals(expectedRemoved, actualRemoved);
+
+    }
+
+    @Test
     public void testShuffle(){
         ArrayList<Card> Hand = new ArrayList<>();
 
@@ -23,5 +38,4 @@ public class TestOldMaidGame {
 
         Assert.assertEquals(Hand, Hand);
     }
-
 }
