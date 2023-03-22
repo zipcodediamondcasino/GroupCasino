@@ -30,7 +30,7 @@ public class Deck {
             deck.remove(cardToPull);
         }
         deck = shuffled;
-    }
+    }//lol
 
     public void addCard(Card card){
         deck.add(card);
