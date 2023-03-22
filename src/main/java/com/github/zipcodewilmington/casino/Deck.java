@@ -3,17 +3,25 @@ import java.util.ArrayList;
 public class Deck {
     private ArrayList<Card> deck;
 
+    public Deck(){
+        deck = new ArrayList<Card>();
+
+    }
+
+    //making it Deck(true) gives you a 52 card deck
     public Deck(boolean makeDeck){
         deck = new ArrayList<Card>();
         if (makeDeck){
             for (Suit suit : Suit.values()){
                 for (Number rank : Number.values()){
-                    deck.add(new Card(rank,suit));
+                    deck.add(new Card(suit, rank));
                 }
             }
         }
     }
 
+
+    //example after making a new deck calling newDeck.shuffle shuffles cards
     public void shuffle(){
         ArrayList<Card> shuffled = new ArrayList<Card>();
         while(deck.size()>0){
@@ -26,7 +34,7 @@ public class Deck {
 
     public void addCard(Card card){
         deck.add(card);
-    }
+        }
 
     public String toString(){
         String output = "";

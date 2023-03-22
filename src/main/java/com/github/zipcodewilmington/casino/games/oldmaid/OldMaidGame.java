@@ -26,6 +26,7 @@ public class OldMaidGame implements Game {
       Collections.shuffle(Hand);
       return Hand;
     }
+
     @Override
     public void add(Player player) {
 
