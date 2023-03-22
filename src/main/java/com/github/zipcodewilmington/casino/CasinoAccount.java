@@ -50,3 +50,4 @@ public class CasinoAccount {
     public void setName(String newName) {
         this.name = newName;
     }
+}
