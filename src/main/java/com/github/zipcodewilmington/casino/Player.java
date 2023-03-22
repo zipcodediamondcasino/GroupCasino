@@ -29,10 +29,8 @@ public abstract class Player {
      * @return the `ArcadeAccount` used to log into the `Arcade` system to play this game
      */
     CasinoAccount getArcadeAccount() {
-
         return null;
     }
-
     <SomeReturnType> SomeReturnType play() {
         return null;
     }
