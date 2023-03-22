@@ -15,16 +15,17 @@ public enum Number {
     QUEEN ("Queen",10),
     KING("King",10);
 
-     String rankName;
+     public String rankName;
 
-     int rankValue;
+     public int rankValue;
 
 
 
 
     Number(String rankName,int  rankValue) {
-        this.rankName = rankName;
         this.rankValue = rankValue;
+        this.rankName = rankName;
+
 
     }
 
