@@ -7,6 +7,24 @@ public class Deck {
         deck = new ArrayList<Card>();
 
     }
+    public Deck(boolean makeDeck){
+        if (makeDeck){
+            for (Suits suit : Suits.values()) {
+                for (Number rank : Number.values()) {
+                    deck.add(new Card(rank, suit));
+                }
+            }
+        }
+    }
+
+    public void shuffle(){
+        ArrayList<Card> shuffled = new ArrayList<Card>();
+        while (deck.size()>0){
+            int cardToPull = (int)(Math.random()*(deck.size()-1));
+            shuffled.add(deck.get(cardToPull));
+        }
+        deck = shuffled;
+    }
 
     public void addCard(Card card){
         deck.add(card);
@@ -22,7 +40,7 @@ public class Deck {
         return output;
     }
 
-    public Deck(boolean makeDeck){
+    public void deckFiftyTwo(boolean makeDeck){
         if (makeDeck){
             for (Suits suit : Suits.values()) {
                 for (Number rank : Number.values()) {
@@ -32,7 +50,7 @@ public class Deck {
         }
     }
 
-    public void shuffle(){
+    public void shuffled(){
         ArrayList<Card> shuffled = new ArrayList<Card>();
         while (deck.size()>0){
             int cardToPull = (int)(Math.random()*(deck.size()-1));
