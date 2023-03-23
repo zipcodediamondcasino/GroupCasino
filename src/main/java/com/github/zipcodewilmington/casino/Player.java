@@ -24,14 +24,8 @@ public abstract class Player {
     public void setPlayerTurn(Boolean playerTurn) {
         this.playerTurn = playerTurn;
     }
+    public CasinoAccount getCasinoAccount() {
+        return this.casinoAccount;
+    }
 
-    /**
-     * @return the `ArcadeAccount` used to log into the `Arcade` system to play this game
-     */
-    CasinoAccount getArcadeAccount() {
-        return null;
-    }
-    <SomeReturnType> SomeReturnType play() {
-        return null;
-    }
 }
