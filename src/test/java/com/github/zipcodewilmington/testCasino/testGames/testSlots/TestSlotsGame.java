@@ -1,5 +1,6 @@
 package com.github.zipcodewilmington.testCasino.testGames.testSlots;
 
+import com.github.zipcodewilmington.casino.CasinoAccount;
 import com.github.zipcodewilmington.casino.Player;
 import com.github.zipcodewilmington.casino.games.slots.SlotsGame;
 import com.github.zipcodewilmington.casino.games.slots.SlotsPlayer;
@@ -61,6 +62,25 @@ public class TestSlotsGame {
 
     @Test
     void testAdd() {
+        SlotsGame g = new SlotsGame();
+        SlotsPlayer expected = new SlotsPlayer(new CasinoAccount());
 
+        g.add(expected);
+
+        ArrayList<Player> actual =  g.getPlayers();
+
+        Assert.assertEquals(expected, actual.get(0));
+    }
+
+    @Test
+    void testRemove() {
+        SlotsGame g = new SlotsGame();
+        SlotsPlayer player = new SlotsPlayer(new CasinoAccount());
+        g.add(player);
+
+        g.remove(player);
+        ArrayList<Player> actual =  g.getPlayers();
+
+        Assert.assertTrue(actual.size() == 0);
     }
 }
