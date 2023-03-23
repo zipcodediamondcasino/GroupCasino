@@ -38,6 +38,9 @@ public class YahtzeeGame implements Game {
         while (round <= 13) {
             beginRound(round);
             playerSequence(rollCount, activeDice, currentRoll, currentBin);
+            ArrayList currentScore = binData(currentBin);
+            ArrayList presentChoices = getScoreChoices(currentScore);
+            System.out.println(presentChoices);
             clearFields(rollCount, currentBin, currentRoll);
             round++;
         }
@@ -66,7 +69,11 @@ public class YahtzeeGame implements Game {
                 askPlayerToRoll();
                 int userInputRoll = scanner.nextInt();
                 currentRoll = processUserInput(userInputRoll, activeDice);
-                //Add rest of dice to bin
+                String[] addToBin = new String[currentRoll.size()];
+                for (int i = 0; i < addToBin.length; i++){
+                    addToBin[i] = currentRoll.get(i).toString();
+                }
+                currentBin = (addDieToBin(currentBin, addToBin, currentRoll));
                 rollCount--;
                 System.out.println("Current Bin: " + currentBin);
             }
@@ -124,6 +131,8 @@ public class YahtzeeGame implements Game {
         }
     }
 
+    //SCORING
+
     public static ArrayList binData(ArrayList bin) {
 
         ArrayList binData = new ArrayList<>();
@@ -161,45 +170,97 @@ public class YahtzeeGame implements Game {
         return binData;
     }
 
-    public static boolean isThreeOfAKind(ArrayList bin) {
+    public static boolean hasOnes(ArrayList binData) {
+        boolean hasOnes = false;
+            if (!binData.get(0).equals(0)) {
+                hasOnes = true;
+        }
+        return hasOnes;
+    }
+
+    public static boolean hasTwos(ArrayList binData) {
+        boolean hasTwos = false;
+        if (!binData.get(1).equals(0)) {
+            hasTwos = true;
+        }
+        return hasTwos;
+    }
+
+    public static boolean hasThrees(ArrayList binData) {
+        boolean hasThrees = false;
+        if (!binData.get(2).equals(0)) {
+            hasThrees = true;
+        }
+        return hasThrees;
+    }
+
+    public static boolean hasFours(ArrayList binData) {
+        boolean hasFours = false;
+        if (!binData.get(3).equals(0)) {
+            hasFours = true;
+        }
+        return hasFours;
+    }
+
+    public static boolean hasFives(ArrayList binData) {
+        boolean hasFives = false;
+        if (!binData.get(4).equals(0)) {
+            hasFives = true;
+        }
+        return hasFives;
+    }
+
+    public static boolean hasSixes(ArrayList binData) {
+        boolean hasSixes = false;
+        if (!binData.get(5).equals(0)) {
+            hasSixes = true;
+        }
+        return hasSixes;
+    }
+
+    public static boolean isThreeOfAKind(ArrayList binData) {
         boolean isThreeOfAKind = false;
-        for (int i = 0; i < bin.size(); i++){
-            if (bin.get(i).equals(3)) {
+        for (int i = 0; i < binData.size(); i++){
+            if (binData.get(i).equals(3)) {
                 isThreeOfAKind = true;
             }
         }
         return isThreeOfAKind;
     }
 
-    public static boolean isFourOfAKind(ArrayList bin) {
+    public static boolean isFourOfAKind(ArrayList binData) {
         boolean isFourOfAKind = false;
-        for (int i = 0; i < bin.size(); i++){
-            if (bin.get(i).equals(3)) {
+        for (int i = 0; i < binData.size(); i++){
+            if (binData.get(i).equals(4)) {
                 isFourOfAKind = true;
             }
         }
         return isFourOfAKind;
     }
 
-    public static boolean isYahtzee(ArrayList bin) {
+    public static boolean isYahtzee(ArrayList binData) {
         boolean isYahtzee = false;
-        for (int i = 0; i < bin.size(); i++){
-            if (bin.get(i).equals(5)) {
+        for (int i = 0; i < binData.size(); i++){
+            if (binData.get(i).equals(5)) {
                 isYahtzee = true;
             }
         }
         return isYahtzee;
     }
-    public static boolean isFullHouse(ArrayList bin) {
+    public static boolean isFullHouse(ArrayList binData) {
         boolean hasThreeOfAKind = false;
         boolean hasTwoOfAKind = false;
         boolean isFullHouse = false;
 
-        for (int i = 0; i < bin.size(); i++){
-            if (bin.get(i).equals(3)) {
-                hasThreeOfAKind = true;
-            } else if (bin.get(i).equals(3)){
+        for (int i = 0; i < binData.size(); i++){
+            if (binData.get(i).equals(2)){
                 hasTwoOfAKind = true;
+            }
+        }
+
+        for (int i = 0; i < binData.size(); i++){
+            if (binData.get(i).equals(3)) {
+                hasThreeOfAKind = true;
             }
         }
 
@@ -210,39 +271,61 @@ public class YahtzeeGame implements Game {
         return isFullHouse;
     }
 
-    public static boolean isSmallStraight(ArrayList bin) {
+    public static boolean isSmallStraight(ArrayList binData) {
         boolean isSmallStraight = false;
 
-        if (bin.get(0).equals(1)) {
-            if (bin.get(1).equals(1) && bin.get(2).equals(1) && bin.get(3).equals(1)) {
+        if (binData.get(0).equals(1)) {
+            if (binData.get(1).equals(1) && binData.get(2).equals(1) && binData.get(3).equals(1)) {
                 isSmallStraight = true;
             }
-        } else if (bin.get(1).equals(1)) {
-            if (bin.get(2).equals(1) && bin.get(3).equals(1) && bin.get(4).equals(1)) {
+        } else if (binData.get(1).equals(1)) {
+            if (binData.get(2).equals(1) && binData.get(3).equals(1) && binData.get(4).equals(1)) {
                 isSmallStraight = true;
             }
-        } else if (bin.get(2).equals(1)) {
-            if (bin.get(3).equals(1) && bin.get(4).equals(1) && bin.get(5).equals(1)) {
+        } else if (binData.get(2).equals(1)) {
+            if (binData.get(3).equals(1) && binData.get(4).equals(1) && binData.get(5).equals(1)) {
                 isSmallStraight = true;
             }
         }
 
         return isSmallStraight;
     }
-    public static boolean isLargeStraight(ArrayList bin) {
+    public static boolean isLargeStraight(ArrayList binData) {
         boolean isLargeStraight = false;
 
-        if (bin.get(0).equals(1)) {
-            if (bin.get(1).equals(1) && bin.get(2).equals(1) && bin.get(3).equals(1) && bin.get(4).equals(1)) {
+        if (binData.get(0).equals(1)) {
+            if (binData.get(1).equals(1) && binData.get(2).equals(1) && binData.get(3).equals(1) && binData.get(4).equals(1)) {
                 isLargeStraight = true;
             }
-        } else if (bin.get(1).equals(1)) {
-            if (bin.get(2).equals(1) && bin.get(3).equals(1) && bin.get(4).equals(1) && bin.get(4).equals(1)) {
+        } else if (binData.get(1).equals(1)) {
+            if (binData.get(2).equals(1) && binData.get(3).equals(1) && binData.get(4).equals(1) && binData.get(4).equals(1)) {
                 isLargeStraight = true;
             }
         }
 
         return isLargeStraight;
+    }
+
+    public static ArrayList getScoreChoices(ArrayList binData) {
+        ArrayList scoreChoices = new ArrayList<>();
+
+        if (isYahtzee(binData)) { scoreChoices.add("Yahtzee"); }
+        if (isLargeStraight(binData)) { scoreChoices.add("Large Straight"); }
+        if (isSmallStraight(binData)) { scoreChoices.add("Small Straight"); }
+        if (isThreeOfAKind(binData)) { scoreChoices.add("Three of a Kind"); }
+        if (isFourOfAKind(binData)) { scoreChoices.add("Four of a Kind"); }
+        if (isFullHouse(binData)) { scoreChoices.add("Full House"); }
+        if (hasOnes(binData)) { scoreChoices.add("Ones"); }
+        if (hasTwos(binData)) { scoreChoices.add("Twos"); }
+        if (hasThrees(binData)) { scoreChoices.add("Threes"); }
+        if (hasFours(binData)) { scoreChoices.add("Fours"); }
+        if (hasFives(binData)) { scoreChoices.add("Fives"); }
+        if (hasSixes(binData)) { scoreChoices.add("Sixes"); }
+
+        scoreChoices.add("Chance");
+
+        return scoreChoices;
+
     }
 
 }
