@@ -19,6 +19,7 @@ import com.github.zipcodewilmington.casino.games.yahtzee.YahtzeePlayer;
 import com.github.zipcodewilmington.utils.AnsiColor;
 import com.github.zipcodewilmington.utils.IOConsole;
 
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +33,7 @@ public class Casino implements Runnable {
     @Override
     public void run() {
         String arcadeDashBoardInput;
-        accounts.add(new CasinoAccount(2000, "taco", "l+ratio"));
+        load();
         CasinoAccountManager casinoAccountManager = new CasinoAccountManager();
         do{
             arcadeDashBoardInput = getLoginAccount();
@@ -57,23 +58,56 @@ public class Casino implements Runnable {
                 case "add-funds":
                     addFunds();
                     break;
+                case "check-funds":
+                    checkFunds();
+                    break;
                 case "drink":
                         drink();
+                        break;
                 default:
                     console.println("Please enter a valid command");
             }
         } while (!"logout".equals(arcadeDashBoardInput));
+        save();
+    }
+
+    public void save(){
+        try {
+            FileOutputStream fo = new FileOutputStream("src/main/java/com/github/zipcodewilmington/utils/accounts.txt");
+            ObjectOutputStream out = new ObjectOutputStream(fo);
+            out.writeObject(accounts);
+            out.close();
+            fo.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void load(){
+        try {
+            FileInputStream fi = new FileInputStream("src/main/java/com/github/zipcodewilmington/utils/accounts.txt");
+            ObjectInputStream in = new ObjectInputStream(fi);
+            accounts = (ArrayList<CasinoAccount>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String getLoginAccount() {
         return console.getStringInput(new StringBuilder()
-                .append("Welcome to the login portal!\n")
+                .append("\nWelcome to the login portal!\n")
                 .append("Please select:")
                 .append("\n\t[ login ], [create-account ]")
                 .toString());
     }
 
     private void addFunds() {
+        current.setBalance(current.getBalance() +
+                console.getIntegerInput("How much do you want to add to your account"));
+    }
+
+    private void checkFunds(){
+        console.println("You have $" + current.getBalance() + " in your account.");
     }
 
     private void selectGame(String gameSelectionInput) {
@@ -108,7 +142,7 @@ public class Casino implements Runnable {
         return console.getStringInput(new StringBuilder()
                 .append("Welcome to the Arcade Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
-                .append("\n\t[ select-game ], [ drink ]")
+                .append("\n\t[ select-game ], [ add-funds ], [ check-funds ], [ drink ]")
                 .toString());
     }
 
@@ -119,7 +153,7 @@ public class Casino implements Runnable {
 
     private String getGameSelectionInput() {
         return console.getStringInput(new StringBuilder()
-                .append("Welcome to the Game Selection Dashboard!")
+                .append("\nWelcome to the Game Selection Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
                 .append("\n\t[ SLOTS ], [ NUMBERGUESS ]")
                 .toString());
