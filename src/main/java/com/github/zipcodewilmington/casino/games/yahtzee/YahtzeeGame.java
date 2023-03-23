@@ -27,21 +27,32 @@ public class YahtzeeGame implements Game {
     }
 
     public static void main(String[] args) {
+        //Current round out of 13
         int round = 13;
+        //How many rolls the player has left in this turn
         int rollCount = 3;
+        //Array list of the values of each dice for current roll
         ArrayList currentRoll = new ArrayList<>();
+        //Array list of dice that have been placed in bin
         ArrayList currentBin = new ArrayList<>();
+        //How many dice are available to roll
         int activeDice = 5;
-        ArrayList roundScore = new ArrayList<>();
 
-
+        //Until 13 rounds have been completed, run game
         while (round <= 13) {
+            //Print current round
             beginRound(round);
+            //Player rolls and bins dice until 3 rolls have been reached
             playerSequence(rollCount, activeDice, currentRoll, currentBin);
+            //Takes bin and converts it into data structure that getScoreChoices methods can comprehend
             ArrayList currentScore = binData(currentBin);
+            //Score choices that the player has based on the dice in their bin
             ArrayList presentChoices = getScoreChoices(currentScore);
+            //Prints possible score choices to user
             System.out.println(presentChoices);
+            //Clears fields to be used by next player
             clearFields(rollCount, currentBin, currentRoll);
+            //Increments round
             round++;
         }
     }
@@ -77,6 +88,10 @@ public class YahtzeeGame implements Game {
                 rollCount--;
                 System.out.println("Current Bin: " + currentBin);
             }
+
+            ArrayList binData = binData(currentBin);
+            ArrayList scoreChoices = getScoreChoices(binData);
+            System.out.println(scoreChoices);
         }
     }
 

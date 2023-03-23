@@ -103,11 +103,11 @@ public class TestYahtzeeGame {
         binData.add(0);
         binData.add(0);
         binData.add(0);
-        binData.add(5);
         binData.add(0);
+        binData.add(5);
 
         expected.add("Yahtzee");
-        expected.add("Fives");
+        expected.add("Sixes");
         expected.add("Chance");
         ArrayList actual = getScoreChoices(binData);
         Assert.assertEquals(expected, actual);
@@ -168,4 +168,5 @@ public class TestYahtzeeGame {
         ArrayList actual = getScoreChoices(binData);
         Assert.assertEquals(expected, actual);
     }
+
 }
