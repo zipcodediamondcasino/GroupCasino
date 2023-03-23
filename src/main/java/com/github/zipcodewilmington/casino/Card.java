@@ -7,9 +7,9 @@ public class Card {
     private Number rank;
 
 
-    public Card(Number rank, Suit suit) {
-        this.rank = rank;
+    public Card(Suit suit, Number rank) {
         this.suit = suit;
+        this.rank = rank;
     }
 
     public int getValue() {
