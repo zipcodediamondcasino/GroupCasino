@@ -50,7 +50,10 @@ public class SlotsGame implements Game, BettingGame {
                     System.out.println("Please enter a number");
                     continue;
                 }
-                bet(this.player, val, 1);
+                if(bet(this.player, val, 1)){
+                    resolve(pull());
+                }
+
                 //this.player.getAccount().setBalance()+= resolve(pull()); //I am aware this is wrong, but its colseish
             } else if (command.equals("2")) {
                 remove(this.player);
@@ -98,6 +101,7 @@ public class SlotsGame implements Game, BettingGame {
                 slots[2] = slot.get();
                 System.out.printf("[%s][%s][%s]\r", slots[0], slots[1], slots[2]);
             }
+            System.out.printf("[%s][%s][%s]", slots[0], slots[1], slots[2]);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

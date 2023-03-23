@@ -7,9 +7,9 @@ import com.github.zipcodewilmington.casino.Suit;
 
 public class MainApplication {
     public static void main(String[] args) {
-        Deck testDeck = new Deck(true);
-        System.out.println(testDeck);
+        //Deck testDeck = new Deck(true);
+        //System.out.println(testDeck);
 
-//        new Casino().run();
+        new Casino().run();
     }
 }
