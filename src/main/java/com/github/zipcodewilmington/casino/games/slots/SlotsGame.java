@@ -45,19 +45,20 @@ public class SlotsGame implements Game, BettingGame {
             command = in.next().trim();
             if (command.equals("1")) {
                 try {
+                    System.out.println("Please enter how much you would like to bet");
                     val = in.nextInt();
                 } catch (NumberFormatException e) {
-                    System.out.println("Please enter a number");
+                    System.out.println("Please enter a number\n");
                     continue;
                 }
-                if(bet(this.player, val, 1)){
-                    resolve(pull());
+                if(bet(this.player, val, 5)){
+                    this.player.getCasinoAccount().setBalance(this.player.getCasinoAccount().getBalance() + resolve(pull()));
                 }
-
-                //this.player.getAccount().setBalance()+= resolve(pull()); //I am aware this is wrong, but its colseish
             } else if (command.equals("2")) {
                 remove(this.player);
                 break;
+            } else {
+                System.out.println("Please enter a valid command");
             }
         }
     }

@@ -34,27 +34,43 @@ public class Casino implements Runnable {
         String arcadeDashBoardInput;
         accounts.add(new CasinoAccount(2000, "taco", "l+ratio"));
         CasinoAccountManager casinoAccountManager = new CasinoAccountManager();
-        do {
-            arcadeDashBoardInput = getArcadeDashboardInput();
+        do{
+            arcadeDashBoardInput = getLoginAccount();
             switch (arcadeDashBoardInput) {
-                case "select-game":
-                    if (current != null) {
-                        selectGame(getGameSelectionInput().toUpperCase());
-                    } else {
-                        console.println("Please log in or create an account before playing");
-                    }
+                case "login":
+                    login();
                     break;
                 case "create-account":
                     createAccount();
                     break;
-                case "login":
-                    login();
+                default:
+                    console.println("Please enter a valid command");
+            }
+
+        }while(current == null);
+        do {
+            arcadeDashBoardInput = getArcadeDashboardInput();
+            switch (arcadeDashBoardInput) {
+                case "select-game":
+                    selectGame(getGameSelectionInput().toUpperCase());
                     break;
                 case "add-funds":
                     addFunds();
                     break;
+                case "drink":
+                        drink();
+                default:
+                    console.println("Please enter a valid command");
             }
         } while (!"logout".equals(arcadeDashBoardInput));
+    }
+
+    private String getLoginAccount() {
+        return console.getStringInput(new StringBuilder()
+                .append("Welcome to the login portal!\n")
+                .append("Please select:")
+                .append("\n\t[ login ], [create-account ]")
+                .toString());
     }
 
     private void addFunds() {
@@ -92,7 +108,7 @@ public class Casino implements Runnable {
         return console.getStringInput(new StringBuilder()
                 .append("Welcome to the Arcade Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
-                .append("\n\t[ create-account ], [ select-game ], [ drink ]")
+                .append("\n\t[ select-game ], [ drink ]")
                 .toString());
     }
 
@@ -122,6 +138,7 @@ public class Casino implements Runnable {
         String accountPassword = console.getStringInput("Enter your account password:");
         CasinoAccount newAccount = new CasinoAccount(0, accountName, accountPassword);
         accounts.add(newAccount);
+        current = newAccount;
     }
 
     private void login(){
