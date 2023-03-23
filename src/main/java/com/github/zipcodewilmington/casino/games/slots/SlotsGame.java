@@ -63,10 +63,10 @@ public class SlotsGame implements Game, BettingGame {
     public boolean bet(Player player, int amount, int minimum) {
         if (amount < minimum) {
             return false;
-        } else if (amount > player.getAccount().getBalance()) {
+        } else if (amount > player.getCasinoAccount().getBalance()) {
             return false;
         } else {
-            player.getAccount().setBalance(player.getAccount().getBalance() - amount);
+            player.getCasinoAccount().setBalance(player.getCasinoAccount().getBalance() - amount);
             this.pool = amount;
             return true;
         }
