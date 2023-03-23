@@ -36,9 +36,9 @@ public class OldMaidGame implements Game {
         return remainingCards;
     }
 
-    public ArrayList<Card> shuffle(ArrayList<Card> Hand){
-      Collections.shuffle(Hand);
-      return Hand;
+    public ArrayList<Card> shuffle(ArrayList<Card> Hand) {
+        Collections.shuffle(Hand);
+        return Hand;
     }
 
     @Override
@@ -61,6 +61,4 @@ public class OldMaidGame implements Game {
 
     }
 
-    private class Cardplayer {
-    }
 }
