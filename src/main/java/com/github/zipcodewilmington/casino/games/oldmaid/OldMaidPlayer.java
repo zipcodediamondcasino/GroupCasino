@@ -6,6 +6,7 @@ import com.github.zipcodewilmington.casino.Number;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class OldMaidPlayer extends CardPlayer {
@@ -15,19 +16,17 @@ public class OldMaidPlayer extends CardPlayer {
     ArrayList <OldMaidPlayer> OldMaidPlayers;
     Deck deck;
     ArrayList<Card> Hand;
-
     Card card;
-
     Number rank;
 
-    public Card pickCard(ArrayList<Card> Hand) {
+    public static Card pickCard(ArrayList<Card> Hand) {
         Random random = new Random();
         int randomIndex = random.nextInt(Hand.size());
         return Hand.get(randomIndex);
     }
 
     // returns the same identical ArrayList but test fails :/
-    public ArrayList<Card> matchCard(ArrayList<Card> Hand) {
+    public static ArrayList<Card> matchCard(ArrayList<Card> Hand) {
         ArrayList<Card> removedMatches = new ArrayList<>();
         for (int i = 0; i < Hand.size() - 1; i++) {
             Card card1 = Hand.get(i);
