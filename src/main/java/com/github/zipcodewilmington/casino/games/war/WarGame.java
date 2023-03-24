@@ -85,6 +85,7 @@ public class WarGame implements Game {
         for (int i = 0; i <= 26; i++)
         dealer.addPlayerHand(deck.takeCard());
         player.addPlayerHand(deck.takeCard());
-    }*/
+    }
 
 
+}*/
