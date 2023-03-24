@@ -7,6 +7,15 @@ import java.util.*;
 public class YahtzeeGame implements Game {
 
     static Scanner scanner = new Scanner(System.in);
+    static LinkedHashMap<String, Integer> scoreCard = newScoreCard();
+    //Current round out of 13
+    static int round = 13;
+    //Array list of the values of each dice for current roll
+    static ArrayList<Integer> currentRoll = new ArrayList<>();
+    //Array list of dice that have been placed in bin
+    static ArrayList<Integer> currentBin = new ArrayList<>();
+    //How many dice are available to roll
+    static int activeDice = 5;
     @Override
     public void add(Player player) {
 
@@ -27,24 +36,13 @@ public class YahtzeeGame implements Game {
     }
 
     public static void main(String[] args) {
-        LinkedHashMap<String, Integer> scoreCard = newScoreCard();
-        //Current round out of 13
-        int round = 13;
-        //How many rolls the player has left in this turn
-        int rollCount = 3;
-        //Array list of the values of each dice for current roll
-        ArrayList<Integer> currentRoll = new ArrayList<>();
-        //Array list of dice that have been placed in bin
-        ArrayList<Integer> currentBin = new ArrayList<>();
-        //How many dice are available to roll
-        int activeDice = 5;
 
         //Until 13 rounds have been completed, run game
         while (round <= 13) {
             //Print current round
             beginRound(round);
             //Player rolls and bins dice until 3 rolls have been reached
-            playerSequence(rollCount, activeDice, currentRoll, currentBin);
+            playerSequence(activeDice, currentRoll, currentBin);
             //Takes bin and converts it into data structure that getScoreChoices methods can comprehend
             ArrayList<Integer> currentScore = binData(currentBin);
             //Score choices that the player has based on the dice in their bin
@@ -55,49 +53,61 @@ public class YahtzeeGame implements Game {
             int userScoreChoice = scanner.nextInt();
             String choice = deciferScoreChoice(userScoreChoice, presentChoices);
             System.out.println("Choice: " + choice);
-            fillScoreCard(choice, scoreCard, currentScore);
+            fillScoreCard(choice, scoreCard, currentBin);
             //Clears fields to be used by next player
-            clearFields(rollCount, currentBin, currentRoll);
+            clearFields(currentBin, currentRoll);
             //Increments round
             round++;
         }
     }
 
-    public static void clearFields(int rollCount, ArrayList<Integer> currentBin, ArrayList<Integer> currentRoll) {
-        rollCount = 3;
+    public static void clearFields(ArrayList<Integer> currentBin, ArrayList<Integer> currentRoll) {
         currentBin.clear();
         currentRoll.clear();
     }
 
-    public static void playerSequence(int rollCount, int activeDice, ArrayList<Integer> currentRoll,ArrayList<Integer> currentBin){
-        while (rollCount > 0 || activeDice > 0) {
+    public static void playerSequence(int activeDice, ArrayList<Integer> currentRoll, ArrayList<Integer> currentBin){
+        //How many rolls the player has left in this turn
+        int rollCount = 0;
 
-            if (rollCount != 1) {
-                askPlayerToRoll();
-                int userInputRoll = scanner.nextInt();
-                currentRoll = processUserInput(userInputRoll, activeDice);
-                askPlayerToBinDice();
-                String[] addToBinArray = scanner.next().split("");
-                ArrayList<String> addToBin = convertArrayToArrayList(addToBinArray);
-                currentBin = addDieToBin(currentBin, addToBin, currentRoll);
-                activeDice = 5 - currentBin.size();
-                rollCount--;
-                System.out.println("Current Bin: " + currentBin);
-            } else {
-                askPlayerToRoll();
-                int userInputRoll = scanner.nextInt();
-                currentRoll = processUserInput(userInputRoll, activeDice);
-                String[] addToBinArray = new String[currentRoll.size()];
-                ArrayList<String> addToBin = convertArrayToArrayList(addToBinArray);
-                for (int i = 0; i < addToBin.size(); i++){
-                    addToBin.set(i, currentRoll.get(i).toString());
+            while (currentBin.size() < 5)
+
+                if (rollCount == 0 || rollCount == 1) {
+                    //Prompt user to roll
+                    askPlayerToRoll();
+                    //Takes user input
+                    int userInputRoll = scanner.nextInt();
+                    //Processes user input
+                    currentRoll = processUserInput(userInputRoll, activeDice);
+                    //Ask player which dice they would like to place into bin
+                    askPlayerToBinDice();
+                    //Takes user input
+                    String[] addToBinArray = scanner.next().split("");
+                    //Converts into array list
+                    ArrayList<String> addToBin = convertArrayToArrayList(addToBinArray);
+                    //Adds selected dice into bin
+                    currentBin = addDieToBin(currentBin, addToBin, currentRoll);
+                    //Keeps track of how many dice are in play
+                    activeDice = 5 - currentBin.size();
+                    //Increments roll count
+                    rollCount++;
+                    //Displays current bin
+                    System.out.println("Current Bin: " + currentBin);
+                } else if (rollCount == 2) {
+                    askPlayerToRoll();
+                    int userInputRoll = scanner.nextInt();
+                    currentRoll = processUserInput(userInputRoll, activeDice);
+                    String[] addToBinArray = new String[currentRoll.size()];
+                    ArrayList<String> addToBin = convertArrayToArrayList(addToBinArray);
+                    for (int i = 0; i < addToBin.size(); i++) {
+                        addToBin.set(i, currentRoll.get(i).toString());
+                    }
+                    currentBin = (addRemainingDiceToBin(currentBin, currentRoll));
+                    activeDice = 5 - currentBin.size();
+                    rollCount++;
+                    System.out.println("Current Bin: " + currentBin);
                 }
-                currentBin = (addRemainingDiceToBin(currentBin, currentRoll));
-                rollCount--;
-                System.out.println("Current Bin: " + currentBin);
             }
-        }
-    }
 
     public static ArrayList<String> convertArrayToArrayList(String[] arr) {
         ArrayList<String> stringList = new ArrayList<>();
@@ -133,7 +143,7 @@ public class YahtzeeGame implements Game {
         }
     }
     public static ArrayList<Integer> addRemainingDiceToBin(ArrayList<Integer> currentBin, ArrayList<Integer> currentRoll){
-        for (int i = 0; i < currentRoll.size(); i++) {
+        for (int i = 0; i < currentRoll.size() - 1; i++) {
             currentBin.add(currentRoll.get(i));
         }
         return currentBin;
@@ -195,10 +205,10 @@ public class YahtzeeGame implements Game {
     }
 
     public static String deciferScoreChoice(int score, ArrayList<String> scoreChoices){
-        String choice = "";
+        String choice = "Chance";
         for (int i = 1; i < scoreChoices.size(); i++){
             if (score == i) {
-                choice += scoreChoices.get(i - 1);
+                choice = scoreChoices.get(i - 1);
             }
         }
         return choice;
@@ -221,15 +231,13 @@ public class YahtzeeGame implements Game {
         } else if (choice.equals("Three of a Kind")){
             for (int i = 0; i < bin.size(); i++) {
                 if (Integer.parseInt(bin.get(i).toString()) >= 3){
-                    //not bin.get(i)
-                    System.out.println(Integer.parseInt(bin.get(i).toString()));
-                    scoreCard.put(choice, Integer.parseInt(bin.get(i).toString()) * 3);
+                    scoreCard.put(choice, (i+1) * 3);
                 }
             }
         } else if (choice.equals("Four of a Kind")){
             for (int i = 0; i < bin.size(); i++) {
                 if (Integer.parseInt(bin.get(i).toString()) >= 4){
-                    scoreCard.put(choice, Integer.parseInt(bin.get(i).toString()) * 4);
+                    scoreCard.put(choice, (i+1) * 4);
                 }
             }
         } else if (choice.equals("Full House")){
@@ -241,15 +249,14 @@ public class YahtzeeGame implements Game {
         } else if (choice.equals("Yahtzee")){
             scoreCard.put(choice, 50);
         } else if (choice.equals("Chance")){
-            int roundScore = 0;
-            roundScore += Integer.parseInt(bin.get(0).toString());
-            roundScore += Integer.parseInt(bin.get(1).toString());
-            roundScore += Integer.parseInt(bin.get(2).toString());
-            roundScore += Integer.parseInt(bin.get(3).toString());
-            roundScore += Integer.parseInt(bin.get(4).toString());
+            int roundScore = Integer.parseInt(bin.get(0).toString()) +
+                    Integer.parseInt(bin.get(1).toString()) +
+                    Integer.parseInt(bin.get(2).toString()) +
+                    Integer.parseInt(bin.get(3).toString()) +
+                    Integer.parseInt(bin.get(4).toString());
             scoreCard.put(choice, roundScore);
         }
-
+        System.out.println(choice);
         System.out.println(scoreCard);
     }
 
