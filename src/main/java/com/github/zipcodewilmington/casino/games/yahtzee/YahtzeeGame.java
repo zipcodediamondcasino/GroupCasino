@@ -33,9 +33,6 @@ public class YahtzeeGame implements Game {
 
     @Override
     public void run() {
-    }
-
-    public static void main(String[] args) {
 
         //Until 13 rounds have been completed, run game
         while (round <= 13) {
