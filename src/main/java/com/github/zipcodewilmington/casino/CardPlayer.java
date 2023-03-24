@@ -8,4 +8,7 @@ public class CardPlayer extends Player {
     public CardPlayer(CasinoAccount casinoAccount) {
         super(casinoAccount);
     }
-}
+
+
+    }
+
