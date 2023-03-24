@@ -1,5 +1,6 @@
 package com.github.zipcodewilmington.casino;
 
+import com.github.zipcodewilmington.casino.Deck;
 import com.github.zipcodewilmington.casino.games.blackjack.BlackjackHand;
 
 import java.util.ArrayList;
