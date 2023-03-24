@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class PokerGame implements Game, BettingGame {
     Scanner scanner;
-    Card card;
     Deck deck;
 
     @Override
@@ -27,7 +26,7 @@ public class PokerGame implements Game, BettingGame {
 
     @Override
     public void run() {
-     /*   scanner = new Scanner(System.in);
+  /*     scanner = new Scanner(System.in);
         boolean quit = false;
         while (true){
             for (:
@@ -53,13 +52,19 @@ public class PokerGame implements Game, BettingGame {
     PokerPlayer pokerPlayer;
 
     public void deal(){
-        for (Card : hand
-             ) {
+        deck.shuffle();
+        for (int i = 0; i < 5; i++) {
+            card = deck.get;
+            pokerDealer.addPlayerHand(deck.get(i));
 
         }
-    }
 
+        }
 */
 
+    }
 
-}
+
+
+
+
