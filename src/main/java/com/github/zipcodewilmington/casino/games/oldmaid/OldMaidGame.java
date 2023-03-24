@@ -1,66 +1,81 @@
 package com.github.zipcodewilmington.casino.games.oldmaid;
 
-import com.github.zipcodewilmington.casino.Card;
-import com.github.zipcodewilmington.casino.Deck;
-import com.github.zipcodewilmington.casino.Game;
-import com.github.zipcodewilmington.casino.Player;
+import com.github.zipcodewilmington.Casino;
+import com.github.zipcodewilmington.casino.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.Scanner;
+
+import static com.github.zipcodewilmington.casino.Number.QUEEN;
 
 public class OldMaidGame implements Game {
-    ArrayList<OldMaidPlayer> OldMaidPlayers;
-    Deck deck;
+    OldMaidPlayer player;
+    CasinoAccount CasinoAccount;
     ArrayList<Card> Hand;
-
-    public Card pickCard(ArrayList<Card> Hand) {
-        Random random = new Random();
-        int randomIndex = random.nextInt(Hand.size());
-        return Hand.get(randomIndex);
-    }
-
-    public ArrayList<Card> matchCard(ArrayList<Card> Hand) {
-        ArrayList<Card> removedMatches = new ArrayList<>();
-        for (int i = 0; i < Hand.size() - 1; i++) {
-            Card card1 = Hand.get(i);
-            Card card2 = Hand.get(i + 1);
-            if (card1.equals(card2)) {
-                removedMatches.add(card1);
-                removedMatches.add(card2);
-                i++; // skip the next card since it has already been removed
-            }
-        }
-        Hand.removeAll(removedMatches);
-        ArrayList<Card> remainingCards = new ArrayList<>(Hand);
-        return remainingCards;
-    }
-
-    public ArrayList<Card> shuffle(ArrayList<Card> Hand){
-      Collections.shuffle(Hand);
-      return Hand;
-    }
 
     @Override
     public void add(Player player) {
+        this.player = (OldMaidPlayer) player;
 
     }
 
     @Override
     public void remove(Player player) {
-
+        if (this.player == player){
+            this.player = null;
+        }
     }
 
     @Override
     public ArrayList<Player> getPlayers() {
-        return null;
+//        OldMaidPlayer oldPlayer = new OldMaidPlayer(this.CasinoAccount);
+//        ArrayList<Player> OldMaidPlayers = new ArrayList<>();
+//        OldMaidPlayers.add(oldPlayer);
+//        return OldMaidPlayers;
+        ArrayList<Player> player = new ArrayList<>();
+        player.add(this.player);
+        return player;
     }
 
+    public void main(String[] args){
+        Scanner scan = new Scanner(System.in);
+        String command;
+        System.out.println("Would you like to play Old Maid?\n1: Yes\n2: leave");
+        command = scan.next().trim();
+        if (command.equals("1")) {
+            System.out.println("Beginning of Run of the Old Maid Card Game");
+        } else if (command.equals("2")) {
+            remove(this.player);
+        } else {
+            System.out.println("Please enter a valid command");
+        }
+        OldMaidGame game = new OldMaidGame();
+        game.run();
+    }
     @Override
     public void run() {
-
+        OldMaidDealer.deckShuffle();
+        OldMaidDealer.dealCards();
+        ArrayList<Card> dealerHand = new ArrayList<>();
+        dealerHand = OldMaidDealer.setDealerHand();
+        ArrayList<Card> playerHand = new ArrayList<>();
+        playerHand = OldMaidDealer.setPlayerHand();
+        while (dealerHand.size() > 1 && playerHand.size() > 1) {
+            OldMaidPlayer.pickCard(dealerHand);
+            OldMaidPlayer.matchCard(playerHand);
+            OldMaidDealer.pickCard(playerHand);
+            OldMaidDealer.matchCard(dealerHand);
+        }
+        Card OldMaid = new Card(Suit.SPADES,QUEEN);
+        if (dealerHand.size() == 1 && dealerHand.contains(OldMaid)){
+            System.out.println("Congratulations, you won. The dealer ended up with Old Maid card.");
+        } else if (playerHand.size() == 1 && playerHand.contains(OldMaid)){
+            System.out.println("You have ended up with Old Maid and have lost. Better luck next time.");
+        }
     }
 
-    private class Cardplayer {
-    }
+
+
 }

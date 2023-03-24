@@ -7,6 +7,7 @@ import com.github.zipcodewilmington.casino.Suit;
 import com.github.zipcodewilmington.casino.games.poker.PokerDealer;
 import com.github.zipcodewilmington.casino.games.poker.PokerPlayer;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
@@ -16,24 +17,26 @@ public class TestPokerGame {
     CasinoAccount dealerAcc = new CasinoAccount();
     PokerDealer pokerDealerTest = new PokerDealer(dealerAcc);
     PokerPlayer pokerPlayerTest = new PokerPlayer(playerAcc);
-
-
-  /*  public void testFold(){
+/*
+    @Test
+    public void testFold(){
         boolean actual = pokerPlayerTest.fold();
 
         Assert.assertTrue(actual);
     }
-  /*  public void testCheck(){ //boolean
+    @Test
+    public void testCheck(){ //boolean
         boolean actual = pokerPlayerTest.check();
 
        Assert.assertFalse(actual);
-    } */
+    }
     //I don't think check exists in 5 card stud
+    @Test
     public void testBet(){
 
 
     }
-/*
+    @Test
     public void testCompareHands(){ //runs hands through if statments and assigns values then compares values
 
 
@@ -68,6 +71,7 @@ public class TestPokerGame {
 
         Assert.assertTrue(expected < actual);
     }  */
+    @Test
     public void testSwitch(){
 
         Card card1 = new Card(Suit.SPADES,  Number.TWO);
