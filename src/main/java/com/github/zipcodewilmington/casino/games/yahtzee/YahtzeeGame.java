@@ -285,7 +285,8 @@ public class YahtzeeGame implements Game {
                 break;
         }
         System.out.println(choice);
-        System.out.println("\nYour Score Card: " + scoreCard + "\n");
+        System.out.println("\nYour Score Card: " +
+                scoreCard + "\n");
     }
 
     public static ArrayList<Integer> binData(ArrayList<Integer> bin) {
@@ -536,6 +537,99 @@ public class YahtzeeGame implements Game {
                 playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 14);
                 break;
         }
-        System.out.println("Player 2 Score Card: " + playerTwoScoreCard + "\n");
+//        System.out.println("Player 2 Score Card: " +
+//                "PLAYER | ONES | TWOS | THREES | FOURS | FIVES | SIXES | THREE OF A KIND" +
+//                " | FOUR OF A KIND | FULL HOUSE | SMALL STRAIGHT | LARGE STRAIGHT | YAHTZEE | CHANCE\n" +
+//                makeHashMapReadable(playerTwoScoreCard));
+        System.out.println("\nPlayer 2 Score Card: " +
+                playerTwoScoreCard + "\n");
+    }
+
+    public static ArrayList<String> makeHashMapReadable(LinkedHashMap<String, Integer> map) {
+        ArrayList<String> convertedHashMap = new ArrayList<>();
+
+        if (map.get("Ones") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Ones").toString());
+        }
+
+        if (map.get("Twos") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Twos").toString());
+        }
+
+        if (map.get("Threes") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Threes").toString());
+        }
+
+        if (map.get("Fours") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Fours").toString());
+        }
+
+        if (map.get("Fives") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Fives").toString());
+        }
+
+        if (map.get("Sixes") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Sixes").toString());
+        }
+
+        if (map.get("Three of a Kind") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Three of a Kind").toString());
+        }
+
+        if (map.get("Four of a Kind") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Four of a Kind").toString());
+        }
+
+        if (map.get("Full House") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Full House").toString());
+        }
+
+        if (map.get("Small Straight") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Small Straight").toString());
+        }
+
+        if (map.get("Large Straight") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Large Straight").toString());
+        }
+
+        if (map.get("Yahtzee") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Yahtzee").toString());
+        }
+        if (map.get("Chance") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Chance").toString());
+        }
+        if (map.get("Total") == null) {
+            convertedHashMap.add(" ");
+        } else {
+            convertedHashMap.add(map.get("Total").toString());
+        }
+
+        return convertedHashMap;
     }
 }
