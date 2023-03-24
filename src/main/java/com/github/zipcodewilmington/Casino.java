@@ -38,7 +38,8 @@ public class Casino implements Runnable {
     public void run() {
         String arcadeDashBoardInput;
         load();
-        CasinoAccountManager casinoAccountManager = new CasinoAccountManager();
+        //accounts.add(new CasinoAccount(100000, "root", "admin"));
+        //CasinoAccountManager casinoAccountManager = new CasinoAccountManager();
         do{
             arcadeDashBoardInput = getLoginAccount();
             switch (arcadeDashBoardInput) {

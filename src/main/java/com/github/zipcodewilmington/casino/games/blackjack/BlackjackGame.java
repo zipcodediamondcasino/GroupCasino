@@ -61,7 +61,7 @@ public class BlackjackGame implements Game, BettingGame {
                 }
             } else if (command.equals("2")) {
                 remove(this.player);
-                break;
+                return;
             } else {
                 System.out.println("Please enter a valid command");
             }
@@ -91,24 +91,24 @@ public class BlackjackGame implements Game, BettingGame {
             if (playerHand.calculateValue() == 21 && dealerHand.calculateValue() < 21) {
                 System.out.println("You hit Blackjack! You're automatically a winner!");
                 winnings();
-                run();
+                //run();
                 break;
             } else if (playerHand.calculateValue() == 21 && dealerHand.calculateValue() == 21) {
                 System.out.println("It\'s a tie! Nobody wins..");
-                run();
+                //run();
                 break;
             } else if (dealerHand.calculateValue() == 21) {
                 System.out.println("Dealer has hit Blackjack. Sorry you lose!");
-                run();
+                //run();
                 break;
             } else if (dealerHand.calculateValue() > 21) {
                 System.out.println("Dealer bust!");
                 System.out.println("You win");
-                run();
+                //run();
                 break;
             } else if (playerHand.calculateValue() > 21) {
                 System.out.println("You lose");
-                run();
+                //run();
                 break;
             }
 
@@ -132,7 +132,7 @@ public class BlackjackGame implements Game, BettingGame {
             }
             if (dealerHand.calculateValue() > playerHand.calculateValue() && dealerHand.calculateValue() <= 21) {
                 System.out.println("Sorry you lose!");
-                run();
+                //run();
                 break;
             } else if (dealerHand.calculateValue() == playerHand.calculateValue()) {
                 System.out.println("Dealer's cards: " + dealerHand + " valued at: " + dealerHand.calculateValue());
@@ -141,7 +141,7 @@ public class BlackjackGame implements Game, BettingGame {
             } else {
                 System.out.println("You win!");
                 winnings();
-                run();
+                //run();
                 break;
             }
         }

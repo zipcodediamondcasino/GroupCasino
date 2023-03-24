@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class RouletteGame implements Game, BettingGame {
     Integer[] wheel = new Integer[]{0, 28, 9, 26, 30, 11, 7, 20, 32, 17, 5, 22, 34, 15, 3, 24, 36, 13, 1, 0, 27, 10, 25, 29, 12, 8, 19, 31, 18, 6, 21, 33, 16, 4, 23, 35, 14, 2};
-    String[] calls = new String[]{"straight", "split", "street", "column", "dozen", "odd", "even", "red", "black", "low", "high"};
     Player player;
     int pool;
     ArrayList<Integer> valid = new ArrayList<>();
@@ -112,7 +111,7 @@ public class RouletteGame implements Game, BettingGame {
             System.out.println("What would you like to call? additional calls not listed street: row of 3   split: pair of adjacent numbers\n" +
                     "straight: one specific number   corner: four numbers around the same point (+)  line: both sides of a row\n");
             val = in.next().trim().toLowerCase();
-            switch(val) {
+            switch(val) { //this is some of the nastiest code I've written in my life - seth
                 case "straight":
                     System.out.println("What number do you want");
                     try{
