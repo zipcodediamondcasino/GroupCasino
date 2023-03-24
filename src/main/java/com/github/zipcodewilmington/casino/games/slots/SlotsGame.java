@@ -52,8 +52,9 @@ public class SlotsGame implements Game, BettingGame {
                     continue;
                 }
                 if(bet(this.player, val, 5)){
-                    this.player.getCasinoAccount().setBalance(this.player.getCasinoAccount().getBalance() + resolve(pull()));
+                    this.player.getCasinoAccount().setBalance(this.player.getCasinoAccount().getBalance() + resolve(pull()) * pool);
                 }
+                pool = 0;
             } else if (command.equals("2")) {
                 remove(this.player);
                 break;
@@ -80,12 +81,16 @@ public class SlotsGame implements Game, BettingGame {
 
     public int resolve(int[] slots) {
         if (slots[0] == slots[1] && slots[1] == slots[2]) { //all numbers the same
+            System.out.println("Winner!");
             return slots[0];
         } else if (slots[2] % slots[0] == 0 && slots[1] % slots[0] == 0) { //2,4,6 or 3,6,9
+            System.out.println("Winner!");
             return slots[2] * 2;
         } else if (slots[0] % slots[2] == 0 && slots[1] % slots[2] == 0) { //reverse of above
+            System.out.println("Winner!");
             return slots[0] * 2;
         } else if (slots[0] + 1 == slots[1] && slots[1] + 1 == slots[2]) { //counting sequence
+            System.out.println("Winner!");
             return slots[0] + 1;
         }
         return 0;
