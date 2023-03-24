@@ -9,7 +9,7 @@ public class YahtzeeGame implements Game {
     static Scanner scanner = new Scanner(System.in);
     static LinkedHashMap<String, Integer> scoreCard = newScoreCard();
     //Current round out of 13
-    static int round = 13;
+    static int round = 1;
     //Array list of the values of each dice for current roll
     static ArrayList<Integer> currentRoll = new ArrayList<>();
     //Array list of dice that have been placed in bin
@@ -199,7 +199,7 @@ public class YahtzeeGame implements Game {
         newHashMap.put("Large Straight", null);
         newHashMap.put("Yahtzee", null);
         newHashMap.put("Chance", null);
-        newHashMap.put("Total", null);
+        newHashMap.put("Total", 0);
 
         return newHashMap;
     }
@@ -218,36 +218,48 @@ public class YahtzeeGame implements Game {
 
         if (choice.equals("Ones")) {
             scoreCard.put(choice, Integer.parseInt(bin.get(0).toString()));
+            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(0).toString()));
         } else if (choice.equals("Twos")){
             scoreCard.put(choice, Integer.parseInt(bin.get(1).toString()) * 2);
+            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(1).toString()) * 2);
         } else if (choice.equals("Threes")){
             scoreCard.put(choice, Integer.parseInt(bin.get(2).toString()) * 3);
+            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(2).toString()) * 3);
         } else if (choice.equals("Fours")){
             scoreCard.put(choice, Integer.parseInt(bin.get(3).toString()) * 4);
+            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(3).toString()) * 4);
         } else if (choice.equals("Fives")){
             scoreCard.put(choice, Integer.parseInt(bin.get(4).toString()) * 5);
+            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(4).toString()) * 5);
         } else if (choice.equals("Sixes")){
             scoreCard.put(choice, Integer.parseInt(bin.get(5).toString()) * 6);
+            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(5).toString()) * 6);
         } else if (choice.equals("Three of a Kind")){
             for (int i = 0; i < bin.size(); i++) {
                 if (Integer.parseInt(bin.get(i).toString()) >= 3){
                     scoreCard.put(choice, (i+1) * 3);
+                    scoreCard.put("Total", scoreCard.get("Total") + (i+1) * 3);
                 }
             }
         } else if (choice.equals("Four of a Kind")){
             for (int i = 0; i < bin.size(); i++) {
                 if (Integer.parseInt(bin.get(i).toString()) >= 4){
                     scoreCard.put(choice, (i+1) * 4);
+                    scoreCard.put("Total", scoreCard.get("Total") + (i+1) * 4);
                 }
             }
         } else if (choice.equals("Full House")){
             scoreCard.put(choice, 25);
+            scoreCard.put("Total", scoreCard.get("Total") + 25);
         }else if (choice.equals("Small Straight")){
             scoreCard.put(choice, 30);
+            scoreCard.put("Total", scoreCard.get("Total") + 30);
         } else if (choice.equals("Large Straight")){
             scoreCard.put(choice, 40);
+            scoreCard.put("Total", scoreCard.get("Total") + 40);
         } else if (choice.equals("Yahtzee")){
             scoreCard.put(choice, 50);
+            scoreCard.put("Total", scoreCard.get("Total") + 50);
         } else if (choice.equals("Chance")){
             int roundScore = Integer.parseInt(bin.get(0).toString()) +
                     Integer.parseInt(bin.get(1).toString()) +
@@ -255,6 +267,7 @@ public class YahtzeeGame implements Game {
                     Integer.parseInt(bin.get(3).toString()) +
                     Integer.parseInt(bin.get(4).toString());
             scoreCard.put(choice, roundScore);
+            scoreCard.put("Total", scoreCard.get("Total") + roundScore);
         }
         System.out.println(choice);
         System.out.println(scoreCard);
