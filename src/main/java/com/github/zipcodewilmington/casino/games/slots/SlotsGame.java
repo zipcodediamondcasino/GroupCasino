@@ -5,6 +5,8 @@ import com.github.zipcodewilmington.casino.Game;
 import com.github.zipcodewilmington.casino.Player;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.function.Supplier;
 
 /**
  * Created by leon on 7/21/2020.
@@ -21,7 +23,9 @@ public class SlotsGame implements Game, BettingGame {
 
     @Override
     public void remove(Player player) {
-
+        if (this.player == player) {
+            this.player = null;
+        }
     }
 
     @Override
@@ -33,19 +37,75 @@ public class SlotsGame implements Game, BettingGame {
 
     @Override
     public void run() {
-
+        Scanner in = new Scanner(System.in);
+        String command;
+        int val;
+        while (true) {
+            System.out.println("Welcome: would you like to spin the slots?\n1: spin\n2: leave");
+            command = in.next().trim();
+            if (command.equals("1")) {
+                try {
+                    System.out.println("Please enter how much you would like to bet");
+                    val = in.nextInt();
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a number\n");
+                    continue;
+                }
+                if(bet(this.player, val, 5)){
+                    this.player.getCasinoAccount().setBalance(this.player.getCasinoAccount().getBalance() + resolve(pull()));
+                }
+            } else if (command.equals("2")) {
+                remove(this.player);
+                break;
+            } else {
+                System.out.println("Please enter a valid command");
+            }
+        }
     }
 
     @Override
     public boolean bet(Player player, int amount, int minimum) {
-        return false;
+        if (amount < minimum) {
+            System.out.println("$5 is the minimum bet");
+            return false;
+        } else if (amount > player.getCasinoAccount().getBalance()) {
+            System.out.println("Insufficient funds");
+            return false;
+        } else {
+            player.getCasinoAccount().setBalance(player.getCasinoAccount().getBalance() - amount);
+            this.pool = amount;
+            return true;
+        }
     }
 
-    public int resolve(int[] ints) {
+    public int resolve(int[] slots) {
+        if (slots[0] == slots[1] && slots[1] == slots[2]) { //all numbers the same
+            return slots[0];
+        } else if (slots[2] % slots[0] == 0 && slots[1] % slots[0] == 0) { //2,4,6 or 3,6,9
+            return slots[2] * 2;
+        } else if (slots[0] % slots[2] == 0 && slots[1] % slots[2] == 0) { //reverse of above
+            return slots[0] * 2;
+        } else if (slots[0] + 1 == slots[1] && slots[1] + 1 == slots[2]) { //counting sequence
+            return slots[0] + 1;
+        }
         return 0;
     }
 
     public int[] pull() {
-        return null;
+        Supplier<Integer> slot = () -> (int) (Math.random() * (10 - 1) + 1);
+        int[] slots = new int[3];
+        try {
+            for (int i = 35; i <= 100; i++) {
+                Thread.sleep(80);
+                slots[0] = (i < 66) ? slot.get() : slots[0];
+                slots[1] = (i < 80) ? slot.get() : slots[1];
+                slots[2] = slot.get();
+                System.out.printf("[%s][%s][%s]\r", slots[0], slots[1], slots[2]);
+            }
+            System.out.printf("[%s][%s][%s]\n", slots[0], slots[1], slots[2]);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return slots;
     }
 }

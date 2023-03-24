@@ -1,8 +1,5 @@
 package com.github.zipcodewilmington.casino.games.blackjack;
 
-
-import com.github.zipcodewilmington.casino.Dealer;
-
 public class BlackjackDealer {
     private BlackjackHand hand;
     private String name;

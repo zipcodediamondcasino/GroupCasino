@@ -46,4 +46,7 @@ public class BlackjackHand {
     public Card getCard(int index){
         return hand.get(index);
     }
+
+    public void clear() {
+    }
 }

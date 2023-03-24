@@ -20,9 +20,9 @@ public class BlackjackPlayer extends CardPlayer {
         this.name = String.valueOf(casinoAccount);
     }
 
-    public BlackjackHand getHand() {
-        return this.hand;
-    }
+//    public BlackjackHand getHand() {
+//        return this.hand;
+//    }
 
     public void setHand(BlackjackHand hand){
         this.hand = hand;
@@ -36,14 +36,14 @@ public class BlackjackPlayer extends CardPlayer {
 
     }
 
-    public boolean hasBlackjack(){
-        if (this.getHand().calculateValue() ==21){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+//    public boolean hasBlackjack(){
+//        if (this.getHand().calculateValue() ==21){
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
+//    }
 
     public void printHand(){
         System.out.println(this.name + "'s hand.");
