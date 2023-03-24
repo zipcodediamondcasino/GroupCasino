@@ -45,16 +45,20 @@ public class SlotsGame implements Game, BettingGame {
             command = in.next().trim();
             if (command.equals("1")) {
                 try {
+                    System.out.println("Please enter how much you would like to bet");
                     val = in.nextInt();
                 } catch (NumberFormatException e) {
-                    System.out.println("Please enter a number");
+                    System.out.println("Please enter a number\n");
                     continue;
                 }
-                bet(this.player, val, 1);
-                //this.player.getAccount().setBalance()+= resolve(pull()); //I am aware this is wrong, but its colseish
+                if(bet(this.player, val, 5)){
+                    this.player.getCasinoAccount().setBalance(this.player.getCasinoAccount().getBalance() + resolve(pull()));
+                }
             } else if (command.equals("2")) {
                 remove(this.player);
                 break;
+            } else {
+                System.out.println("Please enter a valid command");
             }
         }
     }
@@ -62,8 +66,10 @@ public class SlotsGame implements Game, BettingGame {
     @Override
     public boolean bet(Player player, int amount, int minimum) {
         if (amount < minimum) {
+            System.out.println("$5 is the minimum bet");
             return false;
         } else if (amount > player.getCasinoAccount().getBalance()) {
+            System.out.println("Insufficient funds");
             return false;
         } else {
             player.getCasinoAccount().setBalance(player.getCasinoAccount().getBalance() - amount);
@@ -86,9 +92,7 @@ public class SlotsGame implements Game, BettingGame {
     }
 
     public int[] pull() {
-        Supplier<Integer> slot = () -> {
-            return (int) (Math.random() * (10 - 1) + 1);
-        };
+        Supplier<Integer> slot = () -> (int) (Math.random() * (10 - 1) + 1);
         int[] slots = new int[3];
         try {
             for (int i = 35; i <= 100; i++) {
@@ -98,6 +102,7 @@ public class SlotsGame implements Game, BettingGame {
                 slots[2] = slot.get();
                 System.out.printf("[%s][%s][%s]\r", slots[0], slots[1], slots[2]);
             }
+            System.out.printf("[%s][%s][%s]\n", slots[0], slots[1], slots[2]);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
