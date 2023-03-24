@@ -14,6 +14,8 @@ import com.github.zipcodewilmington.casino.games.oldmaid.OldMaidGame;
 import com.github.zipcodewilmington.casino.games.oldmaid.OldMaidPlayer;
 import com.github.zipcodewilmington.casino.games.poker.PokerGame;
 import com.github.zipcodewilmington.casino.games.poker.PokerPlayer;
+import com.github.zipcodewilmington.casino.games.roulette.RouletteGame;
+import com.github.zipcodewilmington.casino.games.roulette.RoulettePlayer;
 import com.github.zipcodewilmington.casino.games.slots.SlotsGame;
 import com.github.zipcodewilmington.casino.games.slots.SlotsPlayer;
 import com.github.zipcodewilmington.casino.games.yahtzee.YahtzeeGame;
@@ -140,6 +142,9 @@ public class Casino implements Runnable {
             case "COIN FLIP":
                 play(new CoinFlipGame(), new CoinFlipPlayer(current));
                 break;
+            case "ROULETTE":
+                play(new RouletteGame(), new RoulettePlayer(current));
+                break;
             default:
                 String errorMessage = "[ %s ] is an invalid game selection";
                 throw new RuntimeException(String.format(errorMessage, gameSelectionInput));
@@ -163,7 +168,7 @@ public class Casino implements Runnable {
         return console.getStringInput(new StringBuilder()
                 .append("\nWelcome to the Game Selection Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
-                .append("\n[ SLOTS ], [ OLD MAID ], [ BLACKJACK ], [ COIN FLIP ], [ YAHTZEE ]")
+                .append("\n[ SLOTS ], [ OLD MAID ], [ BLACKJACK ], [ COIN FLIP ], [ YAHTZEE ], [ ROULETTE ]")
                 .toString());
     }
 

@@ -14,7 +14,7 @@ public class RouletteGame implements Game, BettingGame {
     String[] calls = new String[]{"straight", "split", "street", "column", "dozen", "odd", "even", "red", "black", "low", "high"};
     Player player;
     int pool;
-    ArrayList<Integer> valid;
+    ArrayList<Integer> valid = new ArrayList<>();
 
 
     @Override
@@ -58,6 +58,7 @@ public class RouletteGame implements Game, BettingGame {
         while (true) {
             System.out.println("Welcome: would you like to spin the roulette?\n1: spin\n2: leave");
             command = in.next().trim();
+            in.nextLine();
             if (command.equals("1")) {
                 try {
                     System.out.println("Please enter how much you would like to bet");
@@ -83,7 +84,7 @@ public class RouletteGame implements Game, BettingGame {
 
     public int spin() {
         int result = (int) (Math.random() * 38);
-        System.out.printf("\n~~The roulette landed on %d!~~", wheel[result]);
+        System.out.printf("\n~~The roulette landed on %d!~~\n\n", wheel[result]);
         return result;
     }
 
@@ -92,15 +93,18 @@ public class RouletteGame implements Game, BettingGame {
         String val;
         int num;
         int num2;
-        valid.clear();
-        System.out.println("/--------------------------------------------------------------------------------\\ \n" +
+        if(valid != null){
+            valid.clear();
+        }
+
+        System.out.println("/-------------------------------------------------------------------------------------\\ \n" +
                 "| R: 3 | B: 6 | R: 9 | R:12 | B:15 | R:18 | R:21 | B:24 | R: 27 | R:30 | B:33 | R:36 | column 3\n" +
                 "|------+------+------+------+------+------+------+------+-------+------+------+------|\n" +
                 "| B: 2 | R: 5 | B: 8 | B:11 | R:14 | B:17 | B:20 | R:23 | B: 26 | B:29 | R:32 | B:35 | column 2\n" +
                 "|------+------+------+------+------+------+------+------+-------+------+------+------|\n" +
                 "| R: 1 | B: 4 | R: 7 | R:10 | B:13 | R:16 | R:19 | B:22 | R: 25 | R:28 | B:31 | R:34 | column 1\n" +
                 "|---------------------------+---------------------------+----------------------------|\n" +
-                "|            dozen 1        |          dozen 2          |         dozen 3            |\n" +
+                "|            dozen1         |          dozen2           |           dozen3           |\n" +
                 "|---------------------------+---------------------------+----------------------------|\n" +
                 "|     low      |    even    |     red     |     black   |     odd      |     high    |\n" +
                 "\\------------------------------------------------------------------------------------/\n");
@@ -172,32 +176,32 @@ public class RouletteGame implements Game, BettingGame {
                     }
                     return val;
 
-                case "column 1":
+                case "column1":
                     for (int i = 0; i < 12; i++) {
                         valid.add(1+3*i);
                     }
                     return "column";
-                case "column 2":
+                case "column2":
                     for (int i = 0; i < 12; i++) {
                         valid.add(2+3*i);
                     }
                     return "column";
-                case "column 3":
+                case "column3":
                     for (int i = 0; i < 12; i++) {
                         valid.add(3+3*i);
                     }
                     return "column";
-                case "dozen 1":
+                case "dozen1":
                     for (int i = 0; i < 12; i++) {
                         valid.add(i);
                     }
                     return "dozen";
-                case "dozen 2":
+                case "dozen2":
                     for (int i = 0; i < 12; i++) {
                         valid.add(12+i);
                     }
                     return "dozen";
-                case "dozen 3":
+                case "dozen3":
                     for (int i = 0; i < 12; i++) {
                         valid.add(24+i);
                     }
