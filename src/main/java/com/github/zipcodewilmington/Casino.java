@@ -64,6 +64,9 @@ public class Casino implements Runnable {
                 case "drink":
                         drink();
                         break;
+                case "logout":
+                    console.println("Thanks for coming!");
+                    break;
                 default:
                     console.println("Please enter a valid command");
             }
@@ -142,7 +145,7 @@ public class Casino implements Runnable {
         return console.getStringInput(new StringBuilder()
                 .append("Welcome to the Arcade Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
-                .append("\n\t[ select-game ], [ add-funds ], [ check-funds ], [ drink ]")
+                .append("\n[ select-game ], [ add-funds ], [ check-funds ], [ drink ], [ logout ]")
                 .toString());
     }
 
@@ -155,7 +158,7 @@ public class Casino implements Runnable {
         return console.getStringInput(new StringBuilder()
                 .append("\nWelcome to the Game Selection Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
-                .append("\n\t[ SLOTS ], [ NUMBERGUESS ]")
+                .append("\n[ SLOTS ], [ POKER ], [ OLD MAID ], [ BLACKJACK ], [ BACCARAT ], [ YAHTZEE ]")
                 .toString());
     }
 
