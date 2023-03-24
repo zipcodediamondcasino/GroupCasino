@@ -1,4 +1,6 @@
 package com.github.zipcodewilmington.casino;
+import com.github.zipcodewilmington.casino.games.blackjack.BlackjackHand;
+
 import java.util.ArrayList;
 public class Deck {
     private ArrayList<Card> deck;
@@ -29,7 +31,7 @@ public class Deck {
             deck.remove(cardToPull);
         }
         deck = shuffled;
-    }
+    }//lol
 
     public void addCard(Card card){
         deck.add(card);
@@ -43,6 +45,12 @@ public class Deck {
             output+="\n";
         }
         return output;
+    }
+
+    public Card takeCard(){
+        Card cardToTake = new Card(deck.get(0));
+        deck.remove(0);
+        return cardToTake;
     }
 
 
