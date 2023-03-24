@@ -12,6 +12,7 @@ public class Card {
         this.rank = rank;
     }
 
+
     public int getValue() {
         return rank.rankValue;
     }

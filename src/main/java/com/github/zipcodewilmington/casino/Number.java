@@ -16,8 +16,8 @@ public enum Number {
     KING("King",10);
 
      public String rankName;
-
      public int rankValue;
+
 
 
 
