@@ -8,6 +8,7 @@ public class YahtzeeGame implements Game {
 
     static Scanner scanner = new Scanner(System.in);
     static LinkedHashMap<String, Integer> scoreCard = newScoreCard();
+    static LinkedHashMap<String, Integer> playerTwoScoreCard = newScoreCard();
     //Current round out of 13
     static int round = 1;
     //Array list of the values of each dice for current roll
@@ -33,7 +34,6 @@ public class YahtzeeGame implements Game {
 
     @Override
     public void run() {
-
         //Until 13 rounds have been completed, run game
         while (round <= 13) {
             //Print current round
@@ -49,13 +49,17 @@ public class YahtzeeGame implements Game {
             askPlayerToChooseScoreSlot();
             int userScoreChoice = scanner.nextInt();
             String choice = deciferScoreChoice(userScoreChoice, presentChoices);
-            System.out.println("Choice: " + choice);
+            System.out.println("\nChoice: " + choice + " \n");
             fillScoreCard(choice, scoreCard, currentBin);
+            populateComputerScoreCard(round);
             //Clears fields to be used by next player
             clearFields(currentBin, currentRoll);
             //Increments round
             round++;
         }
+        System.out.println("\nFINAL SCORE:\n" +
+                "Your Score Card: " + scoreCard + "\n\n" +
+                "Your Score Card: " + playerTwoScoreCard);
     }
 
     public static void clearFields(ArrayList<Integer> currentBin, ArrayList<Integer> currentRoll) {
@@ -102,7 +106,7 @@ public class YahtzeeGame implements Game {
                     currentBin = (addRemainingDiceToBin(currentBin, currentRoll));
                     activeDice = 5 - currentBin.size();
                     rollCount++;
-                    System.out.println("Current Bin: " + currentBin);
+                    System.out.println("\nCurrent Bin: " + currentBin + "\n");
                 }
             }
 
@@ -155,7 +159,7 @@ public class YahtzeeGame implements Game {
     }
 
     public static void beginRound(int round) {
-        System.out.println("ROUND: " + round + "\n\n");
+        System.out.println("\nROUND: " + round + "\n\n");
     }
 
     public static void askPlayerToRoll() {
@@ -213,61 +217,75 @@ public class YahtzeeGame implements Game {
 
     public static void fillScoreCard(String choice, LinkedHashMap<String, Integer> scoreCard, ArrayList<Integer> bin) {
 
-        if (choice.equals("Ones")) {
-            scoreCard.put(choice, Integer.parseInt(bin.get(0).toString()));
-            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(0).toString()));
-        } else if (choice.equals("Twos")){
-            scoreCard.put(choice, Integer.parseInt(bin.get(1).toString()) * 2);
-            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(1).toString()) * 2);
-        } else if (choice.equals("Threes")){
-            scoreCard.put(choice, Integer.parseInt(bin.get(2).toString()) * 3);
-            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(2).toString()) * 3);
-        } else if (choice.equals("Fours")){
-            scoreCard.put(choice, Integer.parseInt(bin.get(3).toString()) * 4);
-            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(3).toString()) * 4);
-        } else if (choice.equals("Fives")){
-            scoreCard.put(choice, Integer.parseInt(bin.get(4).toString()) * 5);
-            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(4).toString()) * 5);
-        } else if (choice.equals("Sixes")){
-            scoreCard.put(choice, Integer.parseInt(bin.get(5).toString()) * 6);
-            scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(5).toString()) * 6);
-        } else if (choice.equals("Three of a Kind")){
-            for (int i = 0; i < bin.size(); i++) {
-                if (Integer.parseInt(bin.get(i).toString()) >= 3){
-                    scoreCard.put(choice, (i+1) * 3);
-                    scoreCard.put("Total", scoreCard.get("Total") + (i+1) * 3);
+        switch (choice) {
+            case "Ones":
+                scoreCard.put(choice, Integer.parseInt(bin.get(0).toString()));
+                scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(0).toString()));
+                break;
+            case "Twos":
+                scoreCard.put(choice, Integer.parseInt(bin.get(1).toString()) * 2);
+                scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(1).toString()) * 2);
+                break;
+            case "Threes":
+                scoreCard.put(choice, Integer.parseInt(bin.get(2).toString()) * 3);
+                scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(2).toString()) * 3);
+                break;
+            case "Fours":
+                scoreCard.put(choice, Integer.parseInt(bin.get(3).toString()) * 4);
+                scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(3).toString()) * 4);
+                break;
+            case "Fives":
+                scoreCard.put(choice, Integer.parseInt(bin.get(4).toString()) * 5);
+                scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(4).toString()) * 5);
+                break;
+            case "Sixes":
+                scoreCard.put(choice, Integer.parseInt(bin.get(5).toString()) * 6);
+                scoreCard.put("Total", scoreCard.get("Total") + Integer.parseInt(bin.get(5).toString()) * 6);
+                break;
+            case "Three of a Kind":
+                for (int i = 0; i < bin.size(); i++) {
+                    if (Integer.parseInt(bin.get(i).toString()) >= 3) {
+                        scoreCard.put(choice, (i + 1) * 3);
+                        scoreCard.put("Total", scoreCard.get("Total") + (i + 1) * 3);
+                    }
                 }
-            }
-        } else if (choice.equals("Four of a Kind")){
-            for (int i = 0; i < bin.size(); i++) {
-                if (Integer.parseInt(bin.get(i).toString()) >= 4){
-                    scoreCard.put(choice, (i+1) * 4);
-                    scoreCard.put("Total", scoreCard.get("Total") + (i+1) * 4);
+                break;
+            case "Four of a Kind":
+                for (int i = 0; i < bin.size(); i++) {
+                    if (Integer.parseInt(bin.get(i).toString()) >= 4) {
+                        scoreCard.put(choice, (i + 1) * 4);
+                        scoreCard.put("Total", scoreCard.get("Total") + (i + 1) * 4);
+                    }
                 }
-            }
-        } else if (choice.equals("Full House")){
-            scoreCard.put(choice, 25);
-            scoreCard.put("Total", scoreCard.get("Total") + 25);
-        }else if (choice.equals("Small Straight")){
-            scoreCard.put(choice, 30);
-            scoreCard.put("Total", scoreCard.get("Total") + 30);
-        } else if (choice.equals("Large Straight")){
-            scoreCard.put(choice, 40);
-            scoreCard.put("Total", scoreCard.get("Total") + 40);
-        } else if (choice.equals("Yahtzee")){
-            scoreCard.put(choice, 50);
-            scoreCard.put("Total", scoreCard.get("Total") + 50);
-        } else if (choice.equals("Chance")){
-            int roundScore = Integer.parseInt(bin.get(0).toString()) +
-                    Integer.parseInt(bin.get(1).toString()) +
-                    Integer.parseInt(bin.get(2).toString()) +
-                    Integer.parseInt(bin.get(3).toString()) +
-                    Integer.parseInt(bin.get(4).toString());
-            scoreCard.put(choice, roundScore);
-            scoreCard.put("Total", scoreCard.get("Total") + roundScore);
+                break;
+            case "Full House":
+                scoreCard.put(choice, 25);
+                scoreCard.put("Total", scoreCard.get("Total") + 25);
+                break;
+            case "Small Straight":
+                scoreCard.put(choice, 30);
+                scoreCard.put("Total", scoreCard.get("Total") + 30);
+                break;
+            case "Large Straight":
+                scoreCard.put(choice, 40);
+                scoreCard.put("Total", scoreCard.get("Total") + 40);
+                break;
+            case "Yahtzee":
+                scoreCard.put(choice, 50);
+                scoreCard.put("Total", scoreCard.get("Total") + 50);
+                break;
+            case "Chance":
+                int roundScore = Integer.parseInt(bin.get(0).toString()) +
+                        Integer.parseInt(bin.get(1).toString()) +
+                        Integer.parseInt(bin.get(2).toString()) +
+                        Integer.parseInt(bin.get(3).toString()) +
+                        Integer.parseInt(bin.get(4).toString());
+                scoreCard.put(choice, roundScore);
+                scoreCard.put("Total", scoreCard.get("Total") + roundScore);
+                break;
         }
         System.out.println(choice);
-        System.out.println(scoreCard);
+        System.out.println("\nYour Score Card: " + scoreCard + "\n");
     }
 
     public static ArrayList<Integer> binData(ArrayList<Integer> bin) {
@@ -462,5 +480,62 @@ public class YahtzeeGame implements Game {
         scoreChoices.add("Chance");
 
         return scoreChoices;
+    }
+
+    public static void populateComputerScoreCard(int round){
+
+        switch (round) {
+            case 12:
+                playerTwoScoreCard.put("Ones", 3);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 3);
+                break;
+            case 8:
+                playerTwoScoreCard.put("Twos", 4);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 4);
+                break;
+            case 2:
+                playerTwoScoreCard.put("Threes", 0);
+                break;
+            case 7:
+                playerTwoScoreCard.put("Fours", 8);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 8);
+                break;
+            case 10:
+                playerTwoScoreCard.put("Fives", 15);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 15);
+                break;
+            case 11:
+                playerTwoScoreCard.put("Sixes", 12);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 12);
+                break;
+            case 1:
+                playerTwoScoreCard.put("Three of a Kind", 9);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 9);
+                break;
+            case 4:
+                playerTwoScoreCard.put("Four of a Kind", 12);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 12);
+                break;
+            case 13:
+                playerTwoScoreCard.put("Full House", 25);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 25);
+                break;
+            case 3:
+                playerTwoScoreCard.put("Small Straight", 30);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 30);
+                break;
+            case 9:
+                playerTwoScoreCard.put("Large Straight", 0);
+                break;
+            case 5:
+                playerTwoScoreCard.put("Yahtzee", 50);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 50);
+                break;
+            case 6:
+                playerTwoScoreCard.put("Chance", 14);
+                playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 14);
+                break;
+        }
+        System.out.println("Player 2 Score Card: " + playerTwoScoreCard + "\n");
     }
 }
