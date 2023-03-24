@@ -17,7 +17,6 @@ public class BlackjackGame implements Game, BettingGame {
     BlackjackHand dealerHand = new BlackjackHand();
 
 
-
     @Override
     public void add(Player player) {
         this.player = (BlackjackPlayer) player;
@@ -57,7 +56,7 @@ public class BlackjackGame implements Game, BettingGame {
                     continue;
                 }
                 if (bet(this.player, val, 5)) {
-                    this.player.getCasinoAccount().setBalance(this.player.getCasinoAccount().getBalance()+winnings());
+                    this.player.getCasinoAccount().setBalance(this.player.getCasinoAccount().getBalance() + winnings());
                     gameStart();
                 }
             } else if (command.equals("2")) {
@@ -93,52 +92,61 @@ public class BlackjackGame implements Game, BettingGame {
                 System.out.println("You hit Blackjack! You're automatically a winner!");
                 winnings();
                 run();
+                break;
             } else if (playerHand.calculateValue() == 21 && dealerHand.calculateValue() == 21) {
                 System.out.println("It\'s a tie! Nobody wins..");
                 run();
+                break;
             } else if (dealerHand.calculateValue() == 21) {
                 System.out.println("Dealer has hit Blackjack. Sorry you lose!");
                 run();
-            }else if (dealerHand.calculateValue() > 21 ) {
+                break;
+            } else if (dealerHand.calculateValue() > 21) {
                 System.out.println("Dealer bust!");
                 System.out.println("You win");
                 run();
-            } else if (playerHand.calculateValue() > 21 ) {
+                break;
+            } else if (playerHand.calculateValue() > 21) {
                 System.out.println("You lose");
                 run();
+                break;
             }
 
             System.out.println("Would you like to hit?\n1: Hit\n2: Stay");
             command = in.next().trim();
             if (command.equals("1")) {
                 playerHand.takeCardFromDeck(deck);
-                if (command.equals("2") && dealerHand.calculateValue() <17){
+                if (command.equals("2") && dealerHand.calculateValue() < 17) {
                     dealerHand.takeCardFromDeck(deck);
-                    System.out.println("Dealer's cards: " +dealerHand + " valued at: " +dealerHand.calculateValue());
+                    System.out.println("Dealer's cards: " + dealerHand + " valued at: " + dealerHand.calculateValue());
                 }
                 System.out.println("Your cards: " + playerHand + " valued at: " + playerHand.calculateValue());
             } else {
-                System.out.println("Dealer's cards: " +dealerHand + " valued at: " +dealerHand.calculateValue());}
+                System.out.println("Dealer's cards: " + dealerHand + " valued at: " + dealerHand.calculateValue());
+            }
 
-                while (dealerHand.calculateValue() < 17) {
-                    System.out.println("Dealer hits.");
-                    dealerHand.takeCardFromDeck(deck);
-                    System.out.println("Dealer's cards: " +dealerHand + " valued at: " +dealerHand.calculateValue());
-                }
-                if (dealerHand.calculateValue() > playerHand.calculateValue() && dealerHand.calculateValue() <=21) {
-                    System.out.println("Sorry you lose!");
-                    run();
-                } else if (dealerHand.calculateValue() == playerHand.calculateValue()) {
-                    System.out.println("Dealer's cards: " +dealerHand + " valued at: " +dealerHand.calculateValue());
-                    System.out.println("It\'s a tie! Nobody wins..");
-
-                }else {
-                    System.out.println("You win!");
-                    winnings();
-                }
+            while (dealerHand.calculateValue() < 17) {
+                System.out.println("Dealer hits.");
+                dealerHand.takeCardFromDeck(deck);
+                System.out.println("Dealer's cards: " + dealerHand + " valued at: " + dealerHand.calculateValue());
+            }
+            if (dealerHand.calculateValue() > playerHand.calculateValue() && dealerHand.calculateValue() <= 21) {
+                System.out.println("Sorry you lose!");
                 run();
+                break;
+            } else if (dealerHand.calculateValue() == playerHand.calculateValue()) {
+                System.out.println("Dealer's cards: " + dealerHand + " valued at: " + dealerHand.calculateValue());
+                System.out.println("It\'s a tie! Nobody wins..");
+
+            } else {
+                System.out.println("You win!");
+                winnings();
+                run();
+                break;
             }
         }
+    }
+
 
 
     private void starNewGame(Deck deck) {
