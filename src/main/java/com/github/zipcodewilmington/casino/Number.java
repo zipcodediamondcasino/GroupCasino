@@ -22,6 +22,7 @@ public enum Number {
 
 
 
+
     Number(String rankName,Integer rankValue) {
         this.rankValue = rankValue;
         this.rankName = rankName;
