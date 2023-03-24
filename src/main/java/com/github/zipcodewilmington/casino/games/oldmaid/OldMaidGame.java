@@ -91,5 +91,4 @@ public class OldMaidGame implements Game {
             }
         }
     }
-
 }
