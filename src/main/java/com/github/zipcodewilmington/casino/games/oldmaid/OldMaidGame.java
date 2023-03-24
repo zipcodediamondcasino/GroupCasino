@@ -40,42 +40,55 @@ public class OldMaidGame implements Game {
     }
 
     public void main(String[] args){
-        Scanner scan = new Scanner(System.in);
-        String command;
-        System.out.println("Would you like to play Old Maid?\n1: Yes\n2: leave");
-        command = scan.next().trim();
-        if (command.equals("1")) {
-            System.out.println("Beginning of Run of the Old Maid Card Game");
-        } else if (command.equals("2")) {
-            remove(this.player);
-        } else {
-            System.out.println("Please enter a valid command");
-        }
         OldMaidGame game = new OldMaidGame();
-        game.run();
+        run();
     }
     @Override
     public void run() {
-        OldMaidDealer.deckShuffle();
-        OldMaidDealer.dealCards();
-        ArrayList<Card> dealerHand = new ArrayList<>();
-        dealerHand = OldMaidDealer.setDealerHand();
-        ArrayList<Card> playerHand = new ArrayList<>();
-        playerHand = OldMaidDealer.setPlayerHand();
-        while (dealerHand.size() > 1 && playerHand.size() > 1) {
-            OldMaidPlayer.pickCard(dealerHand);
-            OldMaidPlayer.matchCard(playerHand);
-            OldMaidDealer.pickCard(playerHand);
-            OldMaidDealer.matchCard(dealerHand);
-        }
-        Card OldMaid = new Card(Suit.SPADES,QUEEN);
-        if (dealerHand.size() == 1 && dealerHand.contains(OldMaid)){
-            System.out.println("Congratulations, you won. The dealer ended up with Old Maid card.");
-        } else if (playerHand.size() == 1 && playerHand.contains(OldMaid)){
-            System.out.println("You have ended up with Old Maid and have lost. Better luck next time.");
+        Scanner in = new Scanner(System.in);
+        String command;
+        while (true) {
+            System.out.println("Would you like to play Old Maid?\n1: Yes\n2: leave");
+            command = in.next().trim();
+            if (command.equals("1")) {
+                System.out.println("Beginning of Run of the Old Maid Card Game");
+                gameStart();
+            } else if (command.equals("2")) {
+                remove(this.player);
+            } else {
+                System.out.println("Please enter a valid command");
+            }
+            break;
         }
     }
+    public void gameStart(){
+        OldMaidDealer dealer = new OldMaidDealer();
+        OldMaidPlayer player = new OldMaidPlayer(CasinoAccount);
+        dealer.makeShuffle();
+        dealer.dealCards();
+        ArrayList<Card> dealerHand = dealer.getDealerHand();
+//        dealerHand = dealer.setDealerHand();
+        ArrayList<Card> playerHand = dealer.getPlayerHand();
+//        playerHand = dealer.setPlayerHand();
+        while (dealerHand.size() > 1 && playerHand.size() > 1) {
+            // player picks card and card gets removed from dealerHand
+            Card cardPPick = player.pickCard(dealerHand);
+            playerHand.add(cardPPick);
+            dealerHand.remove(cardPPick);
+            player.matchCard(playerHand);
 
+            // dealer picks and card gets removed from playerHand
+            Card cardDPick = dealer.pickCard(playerHand);
+            dealerHand.add(cardDPick);
+            playerHand.remove(cardPPick);
+            dealer.matchCard(dealerHand);
 
-
+            Card OldMaid = new Card(Suit.SPADES,QUEEN);
+            if (dealerHand.size() == 1 && dealerHand.contains(OldMaid)){
+                System.out.println("Congratulations, you won. The dealer ended up with Old Maid card.");
+            } else if (playerHand.size() == 1 && playerHand.contains(OldMaid)){
+                System.out.println("You have ended up with Old Maid and have lost. Better luck next time.");
+            }
+        }
+    }
 }
