@@ -189,25 +189,25 @@ public class TestYahtzeeGame {
 
     @Test
     public void  testAddRemainingDiceToBin() {
-//        ArrayList<Integer> bin = new ArrayList<>();
-//        bin.add(1);
-//        bin.add(1);
-//
-//        ArrayList<Integer> roll = new ArrayList<>();
-//        roll.add(2);
-//        roll.add(2);
-//        roll.add(2);
-//
-//        ArrayList<Integer> expected = new ArrayList<>();
-//        expected.add(1);
-//        expected.add(1);
-//        expected.add(2);
-//        expected.add(2);
-//        expected.add(2);
-//
-//        ArrayList<Integer> actual = addRemainingDiceToBin(bin, roll);
-//
-//        Assert.assertEquals(expected, actual);
+        ArrayList<Integer> bin = new ArrayList<>();
+        bin.add(1);
+        bin.add(1);
+
+        ArrayList<Integer> roll = new ArrayList<>();
+        roll.add(2);
+        roll.add(2);
+        roll.add(2);
+
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(1);
+        expected.add(1);
+        expected.add(2);
+        expected.add(2);
+        expected.add(2);
+
+        ArrayList<Integer> actual = addRemainingDiceToBin(bin, roll);
+
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -254,5 +254,23 @@ public class TestYahtzeeGame {
 
     }
 
+    @Test
+    public void populateComputerScoreCard() {
+
+    }
+
+    @Test
+    public void testFillScoreCard() {
+
+    }
+
+    @Test
+    public void testUserInputsLetters() {
+
+    }
+    @Test
+    public void testUserInputsTooManyNumbersWhenBinningDice() {
+
+    }
 
 }
