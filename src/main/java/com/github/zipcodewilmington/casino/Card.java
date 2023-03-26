@@ -12,6 +12,7 @@ public class Card {
         this.rank = rank;
     }
 
+
     public int getValue() {
         return rank.rankValue;
     }
@@ -26,5 +27,10 @@ public class Card {
 
     public String toString() {
         return ("[" + rank + " of " + suit + "] (" + this.getValue() + ")");
+    }
+
+    public Card(Card card) {
+        this.suit = card.getSuit();
+        this.rank = card.getRank();
     }
 }
