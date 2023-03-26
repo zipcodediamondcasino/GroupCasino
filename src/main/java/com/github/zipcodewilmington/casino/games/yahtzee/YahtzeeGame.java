@@ -41,7 +41,7 @@ public class YahtzeeGame implements Game {
             int userScoreChoice = scanner.nextInt();
             String choice = deciferScoreChoice(userScoreChoice, presentChoices);
             printChoices(choice);
-            fillScoreCard(choice, scoreCard, currentBin);
+            fillScoreCard(choice, scoreCard, currentScore);
             printScoreCard(scoreCard);
             populateComputerScoreCard(round, playerTwoScoreCard);
             printPlayer2ScoreCard(playerTwoScoreCard);
@@ -130,6 +130,39 @@ public class YahtzeeGame implements Game {
         } while (!userInputValid);
     }
 
+    public static ArrayList<String> processUserInputBin(){
+        boolean userInputValid = false;
+        ArrayList<String> validUserInput = new ArrayList<>();
+
+        do {
+            String[] userInput = scanner.next().split("");
+            for (int i = 0; i < userInput.length; i++) {
+                if (isOneThruSix(userInput[i])) {
+                    validUserInput = convertArrayToArrayList(userInput);
+                    userInputValid = true;
+                    break;
+                };
+            }
+            System.out.println("Invalid command");
+        } while (!userInputValid);
+        return validUserInput;
+    }
+
+    public static boolean isOneThruSix(String a){
+        boolean jawn = false;
+        switch (a) {
+            case "1":
+            case "5":
+            case "4":
+            case "3":
+            case "2":
+            case "0":
+                jawn = true;
+                break;
+        }
+        return jawn;
+    }
+
     //GAME FUNCTIONALITY
 
     public static void playerSequence(ArrayList<Integer> bin, int dice) {
@@ -143,8 +176,7 @@ public class YahtzeeGame implements Game {
 
             if (rollCount == 0 || rollCount == 1) {
                 askPlayerToBinDice();
-                String[] addToBinArray = scanner.next().split("");
-                ArrayList<String> addToBin = convertArrayToArrayList(addToBinArray);
+                ArrayList<String> addToBin = processUserInputBin();
                 bin = addDieToBin(bin, addToBin, roll);
                 rollCount++;
             } else if (rollCount == 2) {
@@ -168,9 +200,7 @@ public class YahtzeeGame implements Game {
     public static ArrayList<String> convertArrayToArrayList(String[] arr) {
         ArrayList<String> stringList = new ArrayList<>();
         for (int i = 0; i < arr.length; i++) {
-            if (!arr[i].equals(" ")) {
                 stringList.add(arr[i]);
-            }
         }
         return stringList;
     }
@@ -214,8 +244,9 @@ public class YahtzeeGame implements Game {
     }
 
     public static ArrayList<Integer> addDieToBin(ArrayList<Integer> currentBin, ArrayList<String> binned, ArrayList<Integer> currentRoll) {
-
-        if (!binned.get(0).equals("0")){
+        if (currentRoll.size() < binned.size()) {
+            System.out.println("Invalid Input: No dice were placed into bin.");
+        } else if (!binned.get(0).equals("0")){
             for (int i = 0; i < binned.size(); i++) {
                 currentBin.add(currentRoll.get(Integer.parseInt(binned.get(i)) - 1));
             }
@@ -256,7 +287,6 @@ public class YahtzeeGame implements Game {
     }
 
     public static void fillScoreCard(String choice, LinkedHashMap<String, Integer> scoreCard, ArrayList<Integer> bin) {
-
         switch (choice) {
             case "Ones":
                 scoreCard.put(choice, Integer.parseInt(bin.get(0).toString()));
