@@ -1,15 +1,15 @@
 package com.github.zipcodewilmington;
 
-import com.github.zipcodewilmington.casino.Card;
+
 import com.github.zipcodewilmington.casino.Deck;
-import com.github.zipcodewilmington.casino.Number;
-import com.github.zipcodewilmington.casino.Suit;
+import com.github.zipcodewilmington.casino.games.blackjack.BlackjackHand;
+import com.github.zipcodewilmington.casino.games.oldmaid.OldMaidDealer;
+import com.github.zipcodewilmington.casino.games.oldmaid.OldMaidGame;
+
+import java.util.logging.Handler;
 
 public class MainApplication {
     public static void main(String[] args) {
-        //Deck testDeck = new Deck(true);
-        //System.out.println(testDeck);
-
         new Casino().run();
     }
 }

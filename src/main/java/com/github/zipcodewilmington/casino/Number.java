@@ -17,12 +17,13 @@ public enum Number {
 
      public String rankName;
 
-     public int rankValue;
+     public Integer rankValue;
 
 
 
 
-    Number(String rankName,int  rankValue) {
+
+    Number(String rankName,Integer rankValue) {
         this.rankValue = rankValue;
         this.rankName = rankName;
 

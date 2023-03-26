@@ -3,6 +3,8 @@ package com.github.zipcodewilmington.casino.games.slots;
 import com.github.zipcodewilmington.casino.BettingGame;
 import com.github.zipcodewilmington.casino.Game;
 import com.github.zipcodewilmington.casino.Player;
+import com.github.zipcodewilmington.utils.AnsiColor;
+import com.github.zipcodewilmington.utils.IOConsole;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,6 +17,7 @@ public class SlotsGame implements Game, BettingGame {
 
     SlotsPlayer player;
     int pool;
+    IOConsole con = new IOConsole(AnsiColor.BLUE, System.in, System.out);
 
     @Override
     public void add(Player player) {
@@ -41,14 +44,14 @@ public class SlotsGame implements Game, BettingGame {
         String command;
         int val;
         while (true) {
-            System.out.println("Welcome: would you like to spin the slots?\n1: spin\n2: leave");
+            con.println("Welcome: would you like to spin the slots?\n1: spin\n2: leave");
             command = in.next().trim();
             if (command.equals("1")) {
                 try {
-                    System.out.println("Please enter how much you would like to bet");
+                    con.println("Please enter how much you would like to bet");
                     val = in.nextInt();
                 } catch (NumberFormatException e) {
-                    System.out.println("Please enter a number\n");
+                    con.println("Please enter a number\n");
                     continue;
                 }
                 if(bet(this.player, val, 5)){
@@ -59,7 +62,7 @@ public class SlotsGame implements Game, BettingGame {
                 remove(this.player);
                 break;
             } else {
-                System.out.println("Please enter a valid command");
+                con.println("Please enter a valid command");
             }
         }
     }
@@ -67,10 +70,10 @@ public class SlotsGame implements Game, BettingGame {
     @Override
     public boolean bet(Player player, int amount, int minimum) {
         if (amount < minimum) {
-            System.out.println("$5 is the minimum bet");
+            con.println("$5 is the minimum bet");
             return false;
         } else if (amount > player.getCasinoAccount().getBalance()) {
-            System.out.println("Insufficient funds");
+            con.println("Insufficient funds");
             return false;
         } else {
             player.getCasinoAccount().setBalance(player.getCasinoAccount().getBalance() - amount);
@@ -105,9 +108,9 @@ public class SlotsGame implements Game, BettingGame {
                 slots[0] = (i < 66) ? slot.get() : slots[0];
                 slots[1] = (i < 80) ? slot.get() : slots[1];
                 slots[2] = slot.get();
-                System.out.printf("[%s][%s][%s]\r", slots[0], slots[1], slots[2]);
+                con.print("[%s][%s][%s]\r", slots[0], slots[1], slots[2]);
             }
-            System.out.printf("[%s][%s][%s]\n", slots[0], slots[1], slots[2]);
+            con.print("[%s][%s][%s]\n", slots[0], slots[1], slots[2]);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

@@ -4,14 +4,16 @@ import com.github.zipcodewilmington.casino.CasinoAccount;
 import com.github.zipcodewilmington.casino.CasinoAccountManager;
 import com.github.zipcodewilmington.casino.Game;
 import com.github.zipcodewilmington.casino.Player;
-import com.github.zipcodewilmington.casino.games.baccarat.BaccaratGame;
-import com.github.zipcodewilmington.casino.games.baccarat.BaccaratPlayer;
 import com.github.zipcodewilmington.casino.games.blackjack.BlackjackGame;
 import com.github.zipcodewilmington.casino.games.blackjack.BlackjackPlayer;
+import com.github.zipcodewilmington.casino.games.coinflip.CoinFlipGame;
+import com.github.zipcodewilmington.casino.games.coinflip.CoinFlipPlayer;
 import com.github.zipcodewilmington.casino.games.oldmaid.OldMaidGame;
 import com.github.zipcodewilmington.casino.games.oldmaid.OldMaidPlayer;
 import com.github.zipcodewilmington.casino.games.poker.PokerGame;
 import com.github.zipcodewilmington.casino.games.poker.PokerPlayer;
+import com.github.zipcodewilmington.casino.games.roulette.RouletteGame;
+import com.github.zipcodewilmington.casino.games.roulette.RoulettePlayer;
 import com.github.zipcodewilmington.casino.games.slots.SlotsGame;
 import com.github.zipcodewilmington.casino.games.slots.SlotsPlayer;
 import com.github.zipcodewilmington.casino.games.yahtzee.YahtzeeGame;
@@ -34,7 +36,8 @@ public class Casino implements Runnable {
     public void run() {
         String arcadeDashBoardInput;
         load();
-        CasinoAccountManager casinoAccountManager = new CasinoAccountManager();
+        //accounts.add(new CasinoAccount(100000, "root", "admin"));
+        //CasinoAccountManager casinoAccountManager = new CasinoAccountManager();
         do{
             arcadeDashBoardInput = getLoginAccount();
             switch (arcadeDashBoardInput) {
@@ -122,9 +125,9 @@ public class Casino implements Runnable {
             case "OLD MAID":
                 play(new OldMaidGame(), new OldMaidPlayer(current));
                 break;
-            case "POKER":
-                play(new PokerGame(), new PokerPlayer(current));
-                break;
+      //      case "POKER":
+       //         play(new PokerGame(), new PokerPlayer(current));
+       //         break;
             case "BLACKJACK":
             case "BLACK JACK":
                 play(new BlackjackGame(), new BlackjackPlayer(current));
@@ -132,8 +135,14 @@ public class Casino implements Runnable {
             case "YAHTZEE":
                 play(new YahtzeeGame(), new YahtzeePlayer(current));
                 break;
-            case "BACCARAT":
-                play(new BaccaratGame(), new BaccaratPlayer(current));
+    //        case "BACCARAT":
+     //           play(new BaccaratGame(), new BaccaratPlayer(current));
+    //            break;
+            case "COIN FLIP":
+                play(new CoinFlipGame(), new CoinFlipPlayer(current));
+                break;
+            case "ROULETTE":
+                play(new RouletteGame(), new RoulettePlayer(current));
                 break;
             default:
                 String errorMessage = "[ %s ] is an invalid game selection";
@@ -158,7 +167,7 @@ public class Casino implements Runnable {
         return console.getStringInput(new StringBuilder()
                 .append("\nWelcome to the Game Selection Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
-                .append("\n[ SLOTS ], [ POKER ], [ OLD MAID ], [ BLACKJACK ], [ BACCARAT ], [ YAHTZEE ]")
+                .append("\n[ SLOTS ], [ OLD MAID ], [ BLACKJACK ], [ COIN FLIP ], [ YAHTZEE ], [ ROULETTE ]")
                 .toString());
     }
 

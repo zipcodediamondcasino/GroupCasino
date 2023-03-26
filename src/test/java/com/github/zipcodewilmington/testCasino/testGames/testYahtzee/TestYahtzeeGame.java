@@ -28,22 +28,19 @@ public class TestYahtzeeGame {
         Assert.assertTrue(newGame instanceof YahtzeeGame);
     }
 
-    @Test
-    public void testAdd(){
 //        newGame.add(newPlayer);
 //        boolean expected = false;
 //        ArrayList<Player> actual = newGame.getPlayers();
 //        Assert.assertEquals(expected, actual.isEmpty());
     }
-
-    @Test
-    public void remove(){
 //        newGame.add(newPlayer);
 //        newGame.remove(newPlayer);
 //        boolean expected = true;
 //        ArrayList<Player> actual = newGame.getPlayers();
 //        Assert.assertEquals(expected, actual.isEmpty());
+
     }
+
 
     @Test
     public void getPlayers(){
