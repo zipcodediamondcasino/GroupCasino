@@ -111,28 +111,33 @@ public class YahtzeeGame implements Game {
         System.out.println("\nYou feel lucky.\n");
     }
 
+    public static void processUserInputRoll(){
+        boolean userInputValid = false;
+
+        do {
+            String userInput = scanner.next();
+            switch (userInput) {
+                case "1":
+                case "2":
+                    userInputValid = true;
+                    break;
+                case "3":
+                    userInputValid = true;
+                    printYouFeelLucky();
+                default:
+                    System.out.println("Please enter a valid command");
+            }
+        } while (!userInputValid);
+    }
+
     //GAME FUNCTIONALITY
 
     public static void playerSequence(ArrayList<Integer> bin, int dice) {
         int rollCount = 0;
-        boolean userInputValid = false;
 
         while (bin.size() < 5) {
             askPlayerToRoll();
-            do {
-                String userInput = scanner.next();
-                switch (userInput) {
-                    case "1":
-                    case "2":
-                        userInputValid = true;
-                        break;
-                    case "3":
-                        userInputValid = true;
-                        printYouFeelLucky();
-                    default:
-                        System.out.println("Please enter a valid command");
-                }
-            } while (!userInputValid);
+            processUserInputRoll();
             ArrayList<Integer> roll = roll(dice);
             printRoll(roll);
 
@@ -163,10 +168,30 @@ public class YahtzeeGame implements Game {
     public static ArrayList<String> convertArrayToArrayList(String[] arr) {
         ArrayList<String> stringList = new ArrayList<>();
         for (int i = 0; i < arr.length; i++) {
-            stringList.add(arr[i]);
+            if (!arr[i].equals(" ")) {
+                stringList.add(arr[i]);
+            }
         }
         return stringList;
     }
+
+//    public static String[] checkIfArrayListIsEqualToBinSize(ArrayList<Integer> bin) {
+//        boolean validUserInput = false;
+//        String[] addToBin = new String[bin.size()];
+//
+//        do {
+//            String[] userInput = scanner.next().split("");
+//            if (userInput.length != bin.size()) {
+//                System.out.println("Please enter a valid command");
+//            } else {
+//                for (int i = 0; i < addToBin.length; i++) {
+//                    addToBin[i] = userInput[i];
+//                }
+//                validUserInput = true;
+//            }
+//        } while (!validUserInput);
+//        return addToBin;
+//    }
 
     public static int diceRoll() {
         double roll = (Math.random() * (6 - 1) + 1);
@@ -190,8 +215,10 @@ public class YahtzeeGame implements Game {
 
     public static ArrayList<Integer> addDieToBin(ArrayList<Integer> currentBin, ArrayList<String> binned, ArrayList<Integer> currentRoll) {
 
-        for (int i = 0; i < binned.size(); i++) {
+        if (!binned.get(0).equals("0")){
+            for (int i = 0; i < binned.size(); i++) {
                 currentBin.add(currentRoll.get(Integer.parseInt(binned.get(i)) - 1));
+            }
         }
         return currentBin;
     }
