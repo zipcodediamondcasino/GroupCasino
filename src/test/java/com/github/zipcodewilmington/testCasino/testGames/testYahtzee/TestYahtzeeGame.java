@@ -244,24 +244,51 @@ public class TestYahtzeeGame {
         Assert.assertFalse(expected == actual);
     }
 
+//    public static String deciferScoreChoice(int score, ArrayList<String> scoreChoices){
+//        String choice = "Chance";
+//        for (int i = 1; i < scoreChoices.size(); i++){
+//            if (score == i) {
+//                choice = scoreChoices.get(i - 1);
+//            }
+//        }
+//        return choice;
+//    }
+
     @Test
     public void testDecipherChoice() {
-
+        ArrayList scoreChoices = new ArrayList<>();
+        scoreChoices.add("Ones");
+        scoreChoices.add("Twos");
+        deciferScoreChoice(1, scoreChoices);
+        String expected = "Ones";
+        String actual = deciferScoreChoice(1, scoreChoices);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testBinData() {
 
     }
-
     @Test
-    public void populateComputerScoreCard() {
+    public void TestPopulateComputerScoreCard() {
+        LinkedHashMap<String, Integer> computerScoreCard = new LinkedHashMap<>();
+        int round = 2;
+        populateComputerScoreCard(round, computerScoreCard);
 
+        Integer expected = 0;
+        Integer actual = computerScoreCard.get("Threes");
+        Assert.assertEquals(expected, actual);
     }
-
     @Test
     public void testFillScoreCard() {
-
+        LinkedHashMap<String, Integer> newScoreCard = newScoreCard();
+        String chooseScore = "Ones";
+        ArrayList<Integer> currentBin = new ArrayList<>();
+        currentBin.add(0, 3);
+        fillScoreCard(chooseScore, newScoreCard, currentBin);
+        Integer actual = newScoreCard.get("Ones");
+        Integer expected = 3;
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -270,6 +297,20 @@ public class TestYahtzeeGame {
     }
     @Test
     public void testUserInputsTooManyNumbersWhenBinningDice() {
+
+    }
+
+    @Test
+    public void testClearFieldsMethodEmptiesCurrentBinAndCurrentRoll() {
+        ArrayList<Integer> roll = new ArrayList<>();
+        roll.add(1);
+        ArrayList<Integer> bin = new ArrayList<>();
+        bin.add(1);
+        clearFields(bin, roll);
+        boolean actual = bin.isEmpty();
+        boolean expected = true;
+
+        Assert.assertEquals(expected, actual);
 
     }
 
