@@ -14,9 +14,11 @@ import java.util.Random;
 import static com.github.zipcodewilmington.casino.Number.*;
 
 public class OldMaidDealer {
-    static ArrayList<Card> newDeck = new ArrayList<>();
+    List<Card> newDeck = new ArrayList<>();
+    ArrayList<Card> dealerHand = new ArrayList<>();
+    ArrayList<Card> playerHand = new ArrayList<>();
 
-    public ArrayList<Card> makeDeck(){
+    public void makeShuffle(){
         ArrayList<Card> Deck = new ArrayList<>();
         Deck.add(new Card(Suit.HEARTS, ACE));
         Deck.add(new Card(Suit.HEARTS, TWO));
@@ -59,40 +61,44 @@ public class OldMaidDealer {
         Deck.add(new Card(Suit.CLUBS, NINE));
         Deck.add(new Card(Suit.CLUBS, TEN));
         Deck.add(new Card(Suit.SPADES, QUEEN));
-        return Deck;
+        Collections.shuffle(Deck);
+        newDeck = Deck;
     }
 
-    public static void deckShuffle(){
-        OldMaidDealer oldMaidDealer = new OldMaidDealer();
-        ArrayList<Card> newDeck = new ArrayList<>();
-        newDeck = oldMaidDealer.makeDeck();
-        Collections.shuffle(newDeck);
-    }
-    public static void dealCards(){
-        OldMaidDealer.deckShuffle();
-        List<Card> dealerHand = newDeck.subList(0, 22);
-        List<Card> playerHand = newDeck.subList(22, 40);
-    }
-
-    public static ArrayList<Card> setDealerHand(){
-        OldMaidDealer.dealCards();
-        List<Card> dealerHand = newDeck.subList(0, 22);
-        return (ArrayList<Card>) dealerHand;
+    public void dealCards(){
+        makeShuffle();
+        int size = newDeck.size();
+        for (int i = 0; i < size; i++){
+            if ( i < (size + 1 ) / 2) {
+                dealerHand.add(newDeck.get(i));
+            } else {
+                playerHand.add(newDeck.get(i));
+            }
+        }
+//        dealerHand = newDeck.subList(0, 22);
+//        playerHand = newDeck.subList(22, 40);
     }
 
-    public static ArrayList<Card> setPlayerHand(){
-        OldMaidDealer.dealCards();
-        List<Card> playerHand = newDeck.subList(22, 40);
-        return (ArrayList<Card>) playerHand;
+    public ArrayList<Card> getDealerHand(){
+//        dealCards();
+//        List<Card> dealerHand = newDeck.subList(0,22);
+        return dealerHand;
     }
 
-    public static Card pickCard(ArrayList<Card> Hand) {
+    public ArrayList<Card> getPlayerHand(){
+//        dealCards();
+//        List<Card> playerHand = newDeck.subList(22, 40);
+        return playerHand;
+    }
+
+    public Card pickCard(ArrayList<Card> Hand) {
         Random random = new Random();
+//        int randomIndex = (int) (Math.random()*(Hand.size()-1)+1);
         int randomIndex = random.nextInt(Hand.size());
         return Hand.get(randomIndex);
     }
 
-    public static ArrayList<Card> matchCard(ArrayList<Card> Hand) {
+    public ArrayList<Card> matchCard(ArrayList<Card> Hand) {
         ArrayList<Card> removedMatches = new ArrayList<>();
         for (int i = 0; i < Hand.size() - 1; i++) {
             Card card1 = Hand.get(i);

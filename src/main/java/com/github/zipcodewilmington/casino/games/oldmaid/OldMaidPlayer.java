@@ -19,14 +19,14 @@ public class OldMaidPlayer extends CardPlayer {
     Card card;
     Number rank;
 
-    public static Card pickCard(ArrayList<Card> Hand) {
+    public Card pickCard(ArrayList<Card> Hand) {
         Random random = new Random();
         int randomIndex = random.nextInt(Hand.size());
         return Hand.get(randomIndex);
     }
 
     // returns the same identical ArrayList but test fails :/
-    public static ArrayList<Card> matchCard(ArrayList<Card> Hand) {
+    public ArrayList<Card> matchCard(ArrayList<Card> Hand) {
         ArrayList<Card> removedMatches = new ArrayList<>();
         for (int i = 0; i < Hand.size() - 1; i++) {
             Card card1 = Hand.get(i);
