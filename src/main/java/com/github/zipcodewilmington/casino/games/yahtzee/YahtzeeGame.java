@@ -137,7 +137,7 @@ public class YahtzeeGame implements Game {
         do {
             String[] userInput = scanner.next().split("");
             for (int i = 0; i < userInput.length; i++) {
-                if (isOneThruSix(userInput[i], activeDice)) {
+                if (isOneThruSix(userInput[i], currentRoll.size())) {
                     validUserInput = convertArrayToArrayList(userInput);
                     userInputValid = true;
                     break;
