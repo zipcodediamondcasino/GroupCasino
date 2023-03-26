@@ -137,7 +137,7 @@ public class YahtzeeGame implements Game {
         do {
             String[] userInput = scanner.next().split("");
             for (int i = 0; i < userInput.length; i++) {
-                if (isOneThruSix(userInput[i])) {
+                if (isOneThruSix(userInput[i], activeDice)) {
                     validUserInput = convertArrayToArrayList(userInput);
                     userInputValid = true;
                     break;
@@ -148,17 +148,21 @@ public class YahtzeeGame implements Game {
         return validUserInput;
     }
 
-    public static boolean isOneThruSix(String a){
+    public static boolean isOneThruSix(String a,Integer currentDice){
         boolean jawn = false;
-        switch (a) {
-            case "1":
-            case "5":
-            case "4":
-            case "3":
-            case "2":
-            case "0":
-                jawn = true;
-                break;
+
+        if (a.equals("0")){
+            jawn = true;
+        } else if (a.equals("1")) {
+            jawn = true;
+        } else if (a.equals("2") && currentDice > 1){
+            jawn = true;
+        } else if (a.equals("3") && currentDice > 2){
+            jawn = true;
+        } else if (a.equals("4") && currentDice > 3){
+            jawn = true;
+        } else if (a.equals("5") && currentDice > 4){
+            jawn = true;
         }
         return jawn;
     }

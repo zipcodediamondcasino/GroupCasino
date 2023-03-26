@@ -273,4 +273,25 @@ public class TestYahtzeeGame {
 
     }
 
+    @Test
+    public void testUserInputIsThreeWithFourDice(){
+        boolean actual = isOneThruSix("3", 4);
+        boolean expected = true;
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testUserInputIs0(){
+        boolean actual = isOneThruSix("0", 4);
+        boolean expected = true;
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testThatUserInputThreeWithTwoDiceIsInvalid(){
+        boolean actual = isOneThruSix("3", 2);
+        boolean expected = false;
+        Assert.assertEquals(actual, expected);
+    }
+
 }
