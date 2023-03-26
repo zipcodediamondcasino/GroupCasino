@@ -3,6 +3,8 @@ package com.github.zipcodewilmington.casino.games.roulette;
 import com.github.zipcodewilmington.casino.BettingGame;
 import com.github.zipcodewilmington.casino.Game;
 import com.github.zipcodewilmington.casino.Player;
+import com.github.zipcodewilmington.utils.AnsiColor;
+import com.github.zipcodewilmington.utils.IOConsole;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,15 +16,16 @@ public class RouletteGame implements Game, BettingGame {
     Player player;
     int pool;
     ArrayList<Integer> valid = new ArrayList<>();
+    IOConsole con = new IOConsole(AnsiColor.BLUE, System.in, System.out);
 
 
     @Override
     public boolean bet(Player player, int amount, int minimum) {
         if (amount < minimum) {
-            System.out.println("$5 is the minimum bet");
+            con.println("$5 is the minimum bet");
             return false;
         } else if (amount > player.getCasinoAccount().getBalance()) {
-            System.out.println("Insufficient funds");
+            con.println("Insufficient funds");
             return false;
         } else {
             player.getCasinoAccount().setBalance(player.getCasinoAccount().getBalance() - amount);
@@ -50,23 +53,13 @@ public class RouletteGame implements Game, BettingGame {
 
     @Override
     public void run() {
-        Scanner in = new Scanner(System.in);
         String command;
         String call;
-        int val;
         while (true) {
-            System.out.println("Welcome: would you like to spin the roulette?\n1: spin\n2: leave");
-            command = in.next().trim();
-            in.nextLine();
+            //con.println("Welcome: would you like to spin the roulette?\n1: spin\n2: leave");
+            command = con.getStringInput("Welcome: would you like to spin the roulette?\n1: spin\n2: leave");
             if (command.equals("1")) {
-                try {
-                    System.out.println("Please enter how much you would like to bet");
-                    val = in.nextInt();
-                } catch (NumberFormatException e) {
-                    System.out.println("Please enter a number\n");
-                    continue;
-                }
-                if(bet(this.player, val, 5)){
+                if(bet(this.player, con.getIntegerInput("Please enter how much you would like to bet"), 5)){
                     call = call();
                     double bal = this.player.getCasinoAccount().getBalance();
                     this.player.getCasinoAccount().setBalance(bal + pool*(result(spin(), call, valid)) );
@@ -76,14 +69,14 @@ public class RouletteGame implements Game, BettingGame {
                 remove(this.player);
                 break;
             } else {
-                System.out.println("Please enter a valid command");
+                con.println("Please enter a valid command");
             }
         }
     }
 
     public int spin() {
         int result = (int) (Math.random() * 38);
-        System.out.printf("\n~~The roulette landed on %d!~~\n\n", wheel[result]);
+        con.print("\n~~The roulette landed on %d!~~\n\n", wheel[result]);
         return result;
     }
 
@@ -96,7 +89,7 @@ public class RouletteGame implements Game, BettingGame {
             valid.clear();
         }
 
-        System.out.println("/------------------------------------------------------------------------------------\\ \n" +
+        con.println("/------------------------------------------------------------------------------------\\ \n" +
                 "| R: 3 | B: 6 | R: 9 | R:12 | B:15 | R:18 | R:21 | B:24 | R: 27 | R:30 | B:33 | R:36 | column 3\n" +
                 "|------+------+------+------+------+------+------+------+-------+------+------+------|\n" +
                 "| B: 2 | R: 5 | B: 8 | B:11 | R:14 | B:17 | B:20 | R:23 | B: 26 | B:29 | R:32 | B:35 | column 2\n" +
@@ -108,70 +101,47 @@ public class RouletteGame implements Game, BettingGame {
                 "|     low      |    even    |     red     |     black   |     odd      |     high    |\n" +
                 "\\------------------------------------------------------------------------------------/\n");
         do{
-            System.out.println("What would you like to call? additional calls not listed street: row of 3   split: pair of adjacent numbers\n" +
-                    "straight: one specific number   corner: four numbers around the same point (+)  line: both sides of a row\n");
-            val = in.next().trim().toLowerCase();
+            val = con.getStringInput("What would you like to call? additional calls not listed street: row of 3   split: pair of adjacent numbers\n" +
+                    "straight: one specific number   corner: four numbers around the same point (+)  line: both sides of a row\n").trim().toLowerCase();
             switch(val) { //this is some of the nastiest code I've written in my life - seth
                 case "straight":
-                    System.out.println("What number do you want");
-                    try{
-                        num = in.nextInt();
-                        valid.add(num);
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid number");
-                        continue;
-                    }
+                    valid.add(con.getIntegerInput("What number do you want"));
                 return val;
                 case "split":
-                    System.out.println("Please pick two adjacent numbers");
-                    try{
-                        num = in.nextInt();
-                        System.out.println("Enter the second");
-                        num2 = in.nextInt();
-                        valid.add(num);
-                        valid.add(num2);
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid number");
+                    num = con.getIntegerInput("Please pick two adjacent numbers");
+                    num2 = con.getIntegerInput("Enter the second");
+                    if(Math.abs(num - num2) != 3 && Math.abs(num - num2) != 1){
+                        con.println("Please enter adjacent numbers");
                         continue;
                     }
+                    valid.add(num);
+                    valid.add(num2);
                     return val;
                 case "street":
-                    System.out.println("Enter the bottom number of the street you want");
-                    try{
-                        num = in.nextInt();
-                        valid.add(num);
-                        valid.add(num+1);
-                        valid.add(num+2);
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid number");
-                        continue;
-                    }
+                    num = con.getIntegerInput("Enter the bottom number of the street you want");
+                    valid.add(num);
+                    valid.add(num+1);
+                    valid.add(num+2);
                     return val;
-
                 case "corner":
-                    System.out.println("Pick the top right corner you want");
-                    try{
-                        num = in.nextInt();
-                        valid.add(num);
-                        valid.add(num+3);
-                        valid.add(num-1);
-                        valid.add(num+2);
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid number");
-                        continue;
+                    num = con.getIntegerInput("Pick the top left corner you want");
+                    if(num%3 ==1 || num>33){
+                        con.println("Please enter a valid corner");
                     }
+                    valid.add(num);
+                    valid.add(num+3);
+                    valid.add(num-1);
+                    valid.add(num+2);
                     return val;
 
                 case "line":
-                    System.out.println("Pick the bottom left of the line you want");
-                    try{
-                        num = in.nextInt();
-                        for (int i = 0; i < 6; i++) {
-                            valid.add(num+i);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid number");
+                    num = con.getIntegerInput("Pick the bottom left of the line you want");
+                    if(num%3 != 1){
+                        con.println("Please pick a valid line");
                         continue;
+                    }
+                    for (int i = 0; i < 6; i++) {
+                        valid.add(num+i);
                     }
                     return val;
 
@@ -215,7 +185,7 @@ public class RouletteGame implements Game, BettingGame {
                     valid.add(-1);
                     return val;
                 default:
-                    System.out.println("Please enter a valid bet");
+                    con.println("Please enter a valid bet");
             }
         }while(true);
     }
