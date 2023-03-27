@@ -1,5 +1,6 @@
 package com.github.zipcodewilmington.casino.games.blackjack;
 
+import com.github.zipcodewilmington.Casino;
 import com.github.zipcodewilmington.casino.*;
 import com.github.zipcodewilmington.casino.BettingGame;
 import com.github.zipcodewilmington.casino.Player;
@@ -28,7 +29,6 @@ public class BlackjackGame implements Game, BettingGame {
         if (this.player == player) {
             this.player = null;
         }
-
     }
 
     //
@@ -56,12 +56,12 @@ public class BlackjackGame implements Game, BettingGame {
                     continue;
                 }
                 if (bet(this.player, val, 5)) {
-                    this.player.getCasinoAccount().setBalance(this.player.getCasinoAccount().getBalance()+winnings());
+                    this.player.getCasinoAccount().setBalance(this.player.getCasinoAccount().getBalance() + winnings());
                     gameStart();
                 }
             } else if (command.equals("2")) {
                 remove(this.player);
-                break;
+                return;
             } else {
                 System.out.println("Please enter a valid command");
             }
@@ -83,57 +83,71 @@ public class BlackjackGame implements Game, BettingGame {
     private void gameStart() {
 
         Scanner in = new Scanner(System.in);
-        int val;
         String command;
         Deck deck = new Deck(true);
         starNewGame(deck);
 
         while (true) {
             if (playerHand.calculateValue() == 21 && dealerHand.calculateValue() < 21) {
-                System.out.println("You hit BLackjack! You're automatically a winner!");
+                System.out.println("You hit Blackjack! You're automatically a winner!");
                 winnings();
-                run();
+                //run();
+                break;
             } else if (playerHand.calculateValue() == 21 && dealerHand.calculateValue() == 21) {
                 System.out.println("It\'s a tie! Nobody wins..");
-                run();
+                //run();
+                break;
             } else if (dealerHand.calculateValue() == 21) {
                 System.out.println("Dealer has hit Blackjack. Sorry you lose!");
-                run();
-            }else if (dealerHand.calculateValue() > 21 ) {
+                //run();
+                break;
+            } else if (dealerHand.calculateValue() > 21) {
+                System.out.println("Dealer bust!");
                 System.out.println("You win");
-                run();
-            } else if (playerHand.calculateValue() > 21 ) {
+                //run();
+                break;
+            } else if (playerHand.calculateValue() > 21) {
                 System.out.println("You lose");
-                run();
+                //run();
+                break;
             }
-
 
             System.out.println("Would you like to hit?\n1: Hit\n2: Stay");
             command = in.next().trim();
             if (command.equals("1")) {
                 playerHand.takeCardFromDeck(deck);
-                if (dealerHand.calculateValue() <17){
+                if (command.equals("2") && dealerHand.calculateValue() < 17) {
                     dealerHand.takeCardFromDeck(deck);
-                    System.out.println("Dealer's cards: " +dealerHand + " valued at: " +dealerHand.calculateValue());
+                    System.out.println("Dealer's cards: " + dealerHand + " valued at: " + dealerHand.calculateValue());
                 }
                 System.out.println("Your cards: " + playerHand + " valued at: " + playerHand.calculateValue());
             } else {
-                System.out.println("Dealer's cards: " +dealerHand + " valued at: " +dealerHand.calculateValue());
-                while (dealerHand.calculateValue() < 17) {
-                    dealerHand.takeCardFromDeck(deck);
-                    System.out.println("Dealer's cards: " +dealerHand + " valued at: " +dealerHand.calculateValue());
-                }
-                if (dealerHand.calculateValue() > playerHand.calculateValue() && dealerHand.calculateValue() <=21){
-                    System.out.println("Sorry you lose!");
-                    run();
-                }else {
-                    System.out.println("You win!");
-                    winnings();
-                }
-                run();
+                System.out.println("Dealer's cards: " + dealerHand + " valued at: " + dealerHand.calculateValue());
+            }
+
+            while (dealerHand.calculateValue() < 17) {
+                System.out.println("Dealer hits.");
+                dealerHand.takeCardFromDeck(deck);
+                System.out.println("Dealer's cards: " + dealerHand + " valued at: " + dealerHand.calculateValue());
+            }
+            if (dealerHand.calculateValue() > playerHand.calculateValue() && dealerHand.calculateValue() <= 21) {
+                System.out.println("Sorry you lose!");
+                //run();
+                break;
+            } else if (dealerHand.calculateValue() == playerHand.calculateValue()) {
+                System.out.println("Dealer's cards: " + dealerHand + " valued at: " + dealerHand.calculateValue());
+                System.out.println("It\'s a tie! Nobody wins..");
+
+            } else {
+                System.out.println("You win!");
+                winnings();
+                //run();
+                break;
             }
         }
     }
+
+
 
     private void starNewGame(Deck deck) {
 
@@ -157,5 +171,3 @@ public class BlackjackGame implements Game, BettingGame {
         return 0;
     }
 }
-
-
