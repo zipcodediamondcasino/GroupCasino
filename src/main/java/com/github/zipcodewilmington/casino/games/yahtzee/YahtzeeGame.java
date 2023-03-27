@@ -13,104 +13,80 @@ public class YahtzeeGame implements Game {
     static ArrayList<Integer> currentRoll = new ArrayList<>();
     static ArrayList<Integer> currentBin = new ArrayList<>();
     static int activeDice = 5;
+    static int rollCount = 0;
+    ArrayList<Player> players;
     @Override
-    public void add(Player player) {
-
-    }
-
+    public void add(Player player) {;}
     @Override
-    public void remove(Player player) {
-
-    }
-
+    public void remove(Player player) {;}
     @Override
-    public ArrayList<Player> getPlayers() {
-        return null;
-    }
-
+    public ArrayList<Player> getPlayers() {return null;}
     @Override
     public void run() {
-
         while (round <= 13) {
-            beginRound(round);
-            playerSequence(currentBin, activeDice);
+            if (round > 1) {
+                System.out.println("Would you like to continue to play?\n1 - Yes\n2 - No");
+                String playOrLeave = scanner.next();
+                if (playOrLeave.equals("2")) {
+                    break;
+                }
+            }
+
+            System.out.println("\nROUND: " + round + "\n\n");
+
+            while (currentBin.size() < 5) {
+
+                System.out.println("What would you like to do?\n\n1 - [Gently Toss Dice]\n2 - [Throw Dice Vigorously]\n3 - [Shake Dice]\n");
+                processUserInputRoll();
+                ArrayList<Integer> roll = roll(activeDice);
+
+                //DISPLAY EACH DICE USER ROLLED
+                for (int i = 0; i < roll.size(); i++) {
+                    System.out.println(i + 1 + " - [" + roll.get(i) + "]");
+                }
+
+                if (rollCount == 2) {
+                    String[] addToBinArray = new String[roll.size()];
+                    ArrayList<String> addToBin = convertArrayToArrayList(addToBinArray);
+                    for (int i = 0; i < addToBin.size(); i++) {
+                        addToBin.set(i, roll.get(i).toString());
+                    }
+                    currentBin = (addRemainingDiceToBin(currentBin, roll));
+                } else {
+                    System.out.println("\nWhat dice would you like to place in your bin? If none, enter 0.\n");
+                    ArrayList<String> addToBin = processUserInputBin();
+                    currentBin = addDieToBin(currentBin, addToBin, roll);
+                    rollCount++;
+                }
+                activeDice = 5 - currentBin.size();
+                System.out.println("Current Bin: " + currentBin);
+            }
+
             ArrayList<Integer> currentScore = binData(currentBin);
             ArrayList<String> presentChoices = getScoreChoices(currentScore);
-            printScoreChoices(presentChoices);
-            askPlayerToChooseScoreSlot();
+
+            //DISPLAY ALL POSSIBLE SCORE SLOT CHOICES
+            for (int i = 0; i < presentChoices.size(); i++) {
+                System.out.println(i + 1 + " - [" + presentChoices.get(i) + "]");
+            }
+
+            System.out.println("\nWhich would you like to chose?\n");
             int userScoreChoice = scanner.nextInt();
             String choice = deciferScoreChoice(userScoreChoice, presentChoices);
-            printChoices(choice);
+            System.out.println("\nChoice: " + choice + " \n");
             fillScoreCard(choice, scoreCard, currentScore);
-            printScoreCard(scoreCard);
+            System.out.println("\nYour Score Card: " + scoreCard + "\n");
             populateComputerScoreCard(round, playerTwoScoreCard);
-            printPlayer2ScoreCard(playerTwoScoreCard);
+            System.out.println("\nPlayer 2 Score Card: " + playerTwoScoreCard + "\n");
             clearFields(currentBin, currentRoll);
             round++;
         }
-        printFinalScoreCard(scoreCard, playerTwoScoreCard);
+        rollCount = 0;
+        System.out.println("\nFINAL SCORE:\nYour Score Card: " + scoreCard + "\n\nYour Score Card: " + playerTwoScoreCard);
         clearFields(currentBin, currentRoll);
     }
 
-// SYSTEM OUT METHODS
-
-    public static void printChoices(String choice) {
-        System.out.println("\nChoice: " + choice + " \n");
-    }
-
-    public static void printRoll(ArrayList<Integer> currentRoll) {
-        for (int i = 0; i < currentRoll.size(); i++) {
-            System.out.println(i + 1 + " - [" + currentRoll.get(i) + "]");
-        }
-    }
-
-    public static void printScoreChoices(ArrayList<String> scoreChoices) {
-        for (int i = 0; i < scoreChoices.size(); i++) {
-            System.out.println(i + 1 + " - [" + scoreChoices.get(i) + "]");
-        }
-    }
-
-    public static void askPlayerToRoll() {
-        System.out.println("What would you like to do?\n\n" +
-                "1 - [Gently Toss Dice]\n2 - [Throw Dice Vigorously]\n3 - [Shake Dice]\n");
-    }
-
-    public static void askPlayerToBinDice() {
-        System.out.println("\nWhat dice would you like to place in your bin? If none, enter 0.\n");
-    }
-
-    public static void beginRound(int round) {
-        System.out.println("\nROUND: " + round + "\n\n");
-    }
-
-    public static void askPlayerToChooseScoreSlot() {
-        System.out.println("\nWhich would you like to chose?\n");
-    }
-
-    public static void printScoreCard(LinkedHashMap<String, Integer> scoreCard) {
-        System.out.println("\nYour Score Card: " +
-                scoreCard + "\n");
-    }
-
-    public static void printPlayer2ScoreCard(LinkedHashMap<String, Integer> playerTwoScoreCard) {
-        System.out.println("\nPlayer 2 Score Card: " +
-                playerTwoScoreCard + "\n");
-    }
-
-    public static void printFinalScoreCard(LinkedHashMap<String, Integer> scoreCard, LinkedHashMap<String, Integer> playerTwoScoreCard) {
-        System.out.println("\nFINAL SCORE:\n" +
-                "Your Score Card: " + scoreCard + "\n\n" +
-                "Your Score Card: " + playerTwoScoreCard);
-    }
-
-    public static void printCurrentBin(ArrayList currentBin) {
-        System.out.println("Current Bin: " + currentBin);
-    }
-
-    public static void printYouFeelLucky(){
-        System.out.println("\nYou feel lucky.\n");
-    }
-
+    // SYSTEM OUT METHODS
     public static void processUserInputRoll(){
         boolean userInputValid = false;
 
@@ -123,13 +99,12 @@ public class YahtzeeGame implements Game {
                     break;
                 case "3":
                     userInputValid = true;
-                    printYouFeelLucky();
+                    System.out.println("\nYou feel lucky.\n");
                 default:
                     System.out.println("Please enter a valid command");
             }
         } while (!userInputValid);
     }
-
     public static ArrayList<String> processUserInputBin(){
         boolean userInputValid = false;
         ArrayList<String> validUserInput = new ArrayList<>();
@@ -137,70 +112,41 @@ public class YahtzeeGame implements Game {
         do {
             String[] userInput = scanner.next().split("");
             for (int i = 0; i < userInput.length; i++) {
-                if (isOneThruSix(userInput[i], currentRoll.size())) {
+                if (isOneThruSix(userInput[i])) {
                     validUserInput = convertArrayToArrayList(userInput);
                     userInputValid = true;
                     break;
                 };
             }
-            System.out.println("Invalid command");
+            if (userInputValid == false) {
+                System.out.println("Invalid command");
+            }
         } while (!userInputValid);
         return validUserInput;
     }
-
-    public static boolean isOneThruSix(String a,Integer currentDice){
+    //GAME FUNCTIONALITY
+    public static boolean isOneThruSix(String a){
         boolean jawn = false;
 
         if (a.equals("0")){
             jawn = true;
         } else if (a.equals("1")) {
             jawn = true;
-        } else if (a.equals("2") && currentDice > 1){
+        } else if (a.equals("2")){
             jawn = true;
-        } else if (a.equals("3") && currentDice > 2){
+        } else if (a.equals("3")){
             jawn = true;
-        } else if (a.equals("4") && currentDice > 3){
+        } else if (a.equals("4")){
             jawn = true;
-        } else if (a.equals("5") && currentDice > 4){
+        } else if (a.equals("5")){
             jawn = true;
         }
         return jawn;
     }
-
-    //GAME FUNCTIONALITY
-
-    public static void playerSequence(ArrayList<Integer> bin, int dice) {
-        int rollCount = 0;
-
-        while (bin.size() < 5) {
-            askPlayerToRoll();
-            processUserInputRoll();
-            ArrayList<Integer> roll = roll(dice);
-            printRoll(roll);
-
-            if (rollCount == 0 || rollCount == 1) {
-                askPlayerToBinDice();
-                ArrayList<String> addToBin = processUserInputBin();
-                bin = addDieToBin(bin, addToBin, roll);
-                rollCount++;
-            } else if (rollCount == 2) {
-                String[] addToBinArray = new String[roll.size()];
-                ArrayList<String> addToBin = convertArrayToArrayList(addToBinArray);
-                for (int i = 0; i < addToBin.size(); i++) {
-                    addToBin.set(i, roll.get(i).toString());
-                }
-                bin = (addRemainingDiceToBin(bin, roll));
-            }
-            dice = 5 - bin.size();
-            printCurrentBin(bin);
-        }
-    }
-
     public static void clearFields(ArrayList<Integer> currentBin, ArrayList<Integer> currentRoll) {
         currentBin.clear();
         currentRoll.clear();
     }
-
     public static ArrayList<String> convertArrayToArrayList(String[] arr) {
         ArrayList<String> stringList = new ArrayList<>();
         for (int i = 0; i < arr.length; i++) {
@@ -208,45 +154,24 @@ public class YahtzeeGame implements Game {
         }
         return stringList;
     }
-
-//    public static String[] checkIfArrayListIsEqualToBinSize(ArrayList<Integer> bin) {
-//        boolean validUserInput = false;
-//        String[] addToBin = new String[bin.size()];
-//
-//        do {
-//            String[] userInput = scanner.next().split("");
-//            if (userInput.length != bin.size()) {
-//                System.out.println("Please enter a valid command");
-//            } else {
-//                for (int i = 0; i < addToBin.length; i++) {
-//                    addToBin[i] = userInput[i];
-//                }
-//                validUserInput = true;
-//            }
-//        } while (!validUserInput);
-//        return addToBin;
-//    }
-
     public static int diceRoll() {
         double roll = (Math.random() * (6 - 1) + 1);
         return (int)Math.round(roll);
     }
-
     public static ArrayList<Integer> roll(int activeDice){
+
         ArrayList<Integer> currentRoll = new ArrayList<>();
         for (int i = 1; i <= activeDice; i++) {
             currentRoll.add(diceRoll());
         }
         return currentRoll;
     }
-
     public static ArrayList<Integer> addRemainingDiceToBin(ArrayList<Integer> currentBin, ArrayList<Integer> currentRoll){
         for (int i = 0; i < currentRoll.size(); i++) {
             currentBin.add(currentRoll.get(i));
         }
         return currentBin;
     }
-
     public static ArrayList<Integer> addDieToBin(ArrayList<Integer> currentBin, ArrayList<String> binned, ArrayList<Integer> currentRoll) {
         if (currentRoll.size() < binned.size()) {
             System.out.println("Invalid Input: No dice were placed into bin.");
@@ -257,9 +182,7 @@ public class YahtzeeGame implements Game {
         }
         return currentBin;
     }
-
     //SCORING
-
     public static LinkedHashMap<String, Integer> newScoreCard() {
         LinkedHashMap<String, Integer> newHashMap = new LinkedHashMap<>();
         newHashMap.put("Ones", null);
@@ -279,7 +202,6 @@ public class YahtzeeGame implements Game {
 
         return newHashMap;
     }
-
     public static String deciferScoreChoice(int score, ArrayList<String> scoreChoices){
         String choice = "Chance";
         for (int i = 1; i < scoreChoices.size(); i++){
@@ -289,7 +211,6 @@ public class YahtzeeGame implements Game {
         }
         return choice;
     }
-
     public static void fillScoreCard(String choice, LinkedHashMap<String, Integer> scoreCard, ArrayList<Integer> bin) {
         switch (choice) {
             case "Ones":
@@ -359,7 +280,6 @@ public class YahtzeeGame implements Game {
                 break;
         }
     }
-
     public static ArrayList<Integer> binData(ArrayList<Integer> bin) {
 
         ArrayList<Integer> binData = new ArrayList<>();
@@ -396,7 +316,6 @@ public class YahtzeeGame implements Game {
 
         return binData;
     }
-
     public static boolean hasOnes(ArrayList<Integer> binData) {
         boolean hasOnes = false;
             if (!binData.get(0).equals(0)) {
@@ -404,7 +323,6 @@ public class YahtzeeGame implements Game {
         }
         return hasOnes;
     }
-
     public static boolean hasTwos(ArrayList<Integer> binData) {
         boolean hasTwos = false;
         if (!binData.get(1).equals(0)) {
@@ -412,7 +330,6 @@ public class YahtzeeGame implements Game {
         }
         return hasTwos;
     }
-
     public static boolean hasThrees(ArrayList<Integer> binData) {
         boolean hasThrees = false;
         if (!binData.get(2).equals(0)) {
@@ -420,7 +337,6 @@ public class YahtzeeGame implements Game {
         }
         return hasThrees;
     }
-
     public static boolean hasFours(ArrayList<Integer> binData) {
         boolean hasFours = false;
         if (!binData.get(3).equals(0)) {
@@ -428,7 +344,6 @@ public class YahtzeeGame implements Game {
         }
         return hasFours;
     }
-
     public static boolean hasFives(ArrayList<Integer> binData) {
         boolean hasFives = false;
         if (!binData.get(4).equals(0)) {
@@ -436,7 +351,6 @@ public class YahtzeeGame implements Game {
         }
         return hasFives;
     }
-
     public static boolean hasSixes(ArrayList<Integer> binData) {
         boolean hasSixes = false;
         if (!binData.get(5).equals(0)) {
@@ -444,7 +358,6 @@ public class YahtzeeGame implements Game {
         }
         return hasSixes;
     }
-
     public static boolean isThreeOfAKind(ArrayList<Integer> binData) {
         boolean isThreeOfAKind = false;
         for (int i = 0; i < binData.size(); i++){
@@ -454,7 +367,6 @@ public class YahtzeeGame implements Game {
         }
         return isThreeOfAKind;
     }
-
     public static boolean isFourOfAKind(ArrayList<Integer> binData) {
         boolean isFourOfAKind = false;
         for (int i = 0; i < binData.size(); i++){
@@ -464,7 +376,6 @@ public class YahtzeeGame implements Game {
         }
         return isFourOfAKind;
     }
-
     public static boolean isYahtzee(ArrayList<Integer> binData) {
         boolean isYahtzee = false;
         for (int i = 0; i < binData.size(); i++){
@@ -497,7 +408,6 @@ public class YahtzeeGame implements Game {
 
         return isFullHouse;
     }
-
     public static boolean isSmallStraight(ArrayList<Integer> binData) {
         boolean isSmallStraight = false;
 
@@ -532,7 +442,6 @@ public class YahtzeeGame implements Game {
 
         return isLargeStraight;
     }
-
     public static ArrayList<String> getScoreChoices(ArrayList<Integer> binData) {
         ArrayList<String> scoreChoices = new ArrayList<>();
 
@@ -553,7 +462,6 @@ public class YahtzeeGame implements Game {
 
         return scoreChoices;
     }
-
     public static void populateComputerScoreCard(int round, LinkedHashMap<String, Integer> playerTwoScoreCard){
 
         switch (round) {
@@ -608,93 +516,5 @@ public class YahtzeeGame implements Game {
                 playerTwoScoreCard.put("Total", playerTwoScoreCard.get("Total") + 14);
                 break;
         }
-    }
-
-    public static ArrayList<String> makeHashMapReadable(LinkedHashMap<String, Integer> map) {
-        ArrayList<String> convertedHashMap = new ArrayList<>();
-
-        if (map.get("Ones") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Ones").toString());
-        }
-
-        if (map.get("Twos") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Twos").toString());
-        }
-
-        if (map.get("Threes") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Threes").toString());
-        }
-
-        if (map.get("Fours") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Fours").toString());
-        }
-
-        if (map.get("Fives") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Fives").toString());
-        }
-
-        if (map.get("Sixes") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Sixes").toString());
-        }
-
-        if (map.get("Three of a Kind") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Three of a Kind").toString());
-        }
-
-        if (map.get("Four of a Kind") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Four of a Kind").toString());
-        }
-
-        if (map.get("Full House") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Full House").toString());
-        }
-
-        if (map.get("Small Straight") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Small Straight").toString());
-        }
-
-        if (map.get("Large Straight") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Large Straight").toString());
-        }
-
-        if (map.get("Yahtzee") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Yahtzee").toString());
-        }
-        if (map.get("Chance") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Chance").toString());
-        }
-        if (map.get("Total") == null) {
-            convertedHashMap.add(" ");
-        } else {
-            convertedHashMap.add(map.get("Total").toString());
-        }
-
-        return convertedHashMap;
     }
 }
