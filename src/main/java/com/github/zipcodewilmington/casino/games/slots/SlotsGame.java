@@ -40,16 +40,14 @@ public class SlotsGame implements Game, BettingGame {
 
     @Override
     public void run() {
-        Scanner in = new Scanner(System.in);
+        //Scanner in = new Scanner(System.in);
         String command;
         int val;
         while (true) {
-            con.println("Welcome: would you like to spin the slots?\n1: spin\n2: leave");
-            command = in.next().trim();
+            command = con.getStringInput("Welcome: would you like to spin the slots?\n1: spin\n2: leave").trim();
             if (command.equals("1")) {
                 try {
-                    con.println("Please enter how much you would like to bet");
-                    val = in.nextInt();
+                    val = con.getIntegerInput("Please enter how much you would like to bet");
                 } catch (NumberFormatException e) {
                     con.println("Please enter a number\n");
                     continue;
@@ -80,6 +78,10 @@ public class SlotsGame implements Game, BettingGame {
             this.pool = amount;
             return true;
         }
+    }
+
+    public void setCon(IOConsole con){
+        this.con = con;
     }
 
     public int resolve(int[] slots) {

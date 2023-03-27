@@ -74,6 +74,10 @@ public class RouletteGame implements Game, BettingGame {
         }
     }
 
+    public void setCon(IOConsole con){
+        this.con = con;
+    }
+
     public int spin() {
         int result = (int) (Math.random() * 38);
         con.print("\n~~The roulette landed on %d!~~\n\n", wheel[result]);
@@ -81,7 +85,6 @@ public class RouletteGame implements Game, BettingGame {
     }
 
     public String call(){
-        Scanner in = new Scanner(System.in);
         String val;
         int num;
         int num2;
@@ -119,6 +122,10 @@ public class RouletteGame implements Game, BettingGame {
                     return val;
                 case "street":
                     num = con.getIntegerInput("Enter the bottom number of the street you want");
+                    if(num%3 != 1){
+                        con.println("Please pick a valid street");
+                        continue;
+                    }
                     valid.add(num);
                     valid.add(num+1);
                     valid.add(num+2);
@@ -133,10 +140,9 @@ public class RouletteGame implements Game, BettingGame {
                     valid.add(num-1);
                     valid.add(num+2);
                     return val;
-
                 case "line":
                     num = con.getIntegerInput("Pick the bottom left of the line you want");
-                    if(num%3 != 1){
+                    if(num%3 != 1 && num < 34){
                         con.println("Please pick a valid line");
                         continue;
                     }
@@ -144,7 +150,6 @@ public class RouletteGame implements Game, BettingGame {
                         valid.add(num+i);
                     }
                     return val;
-
                 case "column1":
                     for (int i = 0; i < 12; i++) {
                         valid.add(1+3*i);
