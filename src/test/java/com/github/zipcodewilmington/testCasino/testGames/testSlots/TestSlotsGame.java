@@ -4,9 +4,12 @@ import com.github.zipcodewilmington.casino.CasinoAccount;
 import com.github.zipcodewilmington.casino.Player;
 import com.github.zipcodewilmington.casino.games.slots.SlotsGame;
 import com.github.zipcodewilmington.casino.games.slots.SlotsPlayer;
+import com.github.zipcodewilmington.utils.AnsiColor;
+import com.github.zipcodewilmington.utils.IOConsole;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
 public class TestSlotsGame {
@@ -18,6 +21,20 @@ public class TestSlotsGame {
 
         Assert.assertTrue(g instanceof SlotsGame);
 
+    }
+
+    @Test
+    void testRun() {
+        SlotsGame g = new SlotsGame();
+        ArrayList<Player> expected = g.getPlayers();
+        g.add(new SlotsPlayer(new CasinoAccount(500, "name", "password")));
+        ByteArrayInputStream in = new ByteArrayInputStream("9\n1\n5\n2".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+
+        g.run();
+
+        Assert.assertEquals(g.getPlayers(), expected);
     }
 
     @Test
@@ -67,6 +84,26 @@ public class TestSlotsGame {
         int expected = 18;
 
         int actual = g.resolve(new int[]{3,6,9});
+
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    void testResults4() {
+        SlotsGame g = new SlotsGame();
+        int expected = 18;
+
+        int actual = g.resolve(new int[]{9,6,3});
+
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    void testResults5() {
+        SlotsGame g = new SlotsGame();
+        int expected = 4;
+
+        int actual = g.resolve(new int[]{3,4,5});
 
         Assert.assertEquals(expected,actual);
     }
