@@ -10,6 +10,7 @@ import java.util.logging.Handler;
 
 public class MainApplication {
     public static void main(String[] args) {
-        new Casino().run();
+//        new Casino().run();
+        new OldMaidGame().run();
     }
 }

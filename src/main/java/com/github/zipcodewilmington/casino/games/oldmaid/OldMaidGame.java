@@ -3,6 +3,7 @@ package com.github.zipcodewilmington.casino.games.oldmaid;
 import com.github.zipcodewilmington.Casino;
 import com.github.zipcodewilmington.casino.*;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -69,15 +70,22 @@ public class OldMaidGame implements Game {
         ArrayList<Card> dealerHand = dealer.getDealerHand();
 //        dealerHand = dealer.setDealerHand();
         ArrayList<Card> playerHand = dealer.getPlayerHand();
+        System.out.println("The cards are being dealt. This is your hand: " + playerHand);
 //        playerHand = dealer.setPlayerHand();
         while (dealerHand.size() > 1 && playerHand.size() > 1) {
             // player picks card and card gets removed from dealerHand
             Card cardPPick = player.pickCard(dealerHand);
+            String playTurn = "It is your turn to pick from the dealer's hand." +
+                    "This is the card you picked: ";
+            System.out.println(playTurn + cardPPick);
+            System.out.println("It will be added to your hand.");
             playerHand.add(cardPPick);
             dealerHand.remove(cardPPick);
+            String match = "You have a pair! Here is your pair(s)!";
             player.matchCard(playerHand);
 
             // dealer picks and card gets removed from playerHand
+            String dealTurn = "It is the dealer's turn to pick from your hand.";
             Card cardDPick = dealer.pickCard(playerHand);
             dealerHand.add(cardDPick);
             playerHand.remove(cardPPick);
