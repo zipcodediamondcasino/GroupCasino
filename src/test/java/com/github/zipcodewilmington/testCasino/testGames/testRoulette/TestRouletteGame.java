@@ -4,9 +4,12 @@ import com.github.zipcodewilmington.casino.CasinoAccount;
 import com.github.zipcodewilmington.casino.Player;
 import com.github.zipcodewilmington.casino.games.roulette.RouletteGame;
 import com.github.zipcodewilmington.casino.games.roulette.RoulettePlayer;
+import com.github.zipcodewilmington.utils.AnsiColor;
+import com.github.zipcodewilmington.utils.IOConsole;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,6 +21,141 @@ public class TestRouletteGame {
         RouletteGame g = new RouletteGame();
 
         Assert.assertTrue(g instanceof RouletteGame);
+    }
+
+    @Test
+    public void testRun() {
+        RouletteGame g = new RouletteGame();
+        ArrayList<Player> expected = g.getPlayers();
+        g.add(new RoulettePlayer(new CasinoAccount(500, "name", "password")));
+
+
+        ByteArrayInputStream in = new ByteArrayInputStream("2\n".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        g.run();
+
+        Assert.assertEquals(g.getPlayers(), expected);
+    }
+
+    @Test
+    public void testRun2() {
+        RouletteGame g = new RouletteGame();
+        ArrayList<Player> expected = g.getPlayers();
+        g.add(new RoulettePlayer(new CasinoAccount(500, "name", "password")));
+
+
+        ByteArrayInputStream in = new ByteArrayInputStream("1\n5\nred\n2".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        g.run();
+
+        Assert.assertEquals(g.getPlayers(), expected);
+    }
+
+
+    @Test
+    public void testCall1() {
+        RouletteGame g = new RouletteGame();
+        ByteArrayInputStream in = new ByteArrayInputStream("straight\n5\n".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        String expected = "straight";
+
+        String actual = g.call();
+
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    public void testCall2() {
+        RouletteGame g = new RouletteGame();
+        ByteArrayInputStream in = new ByteArrayInputStream("corner\n36\ncorner\n1\n".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        String expected = "corner";
+
+        String actual = g.call();
+
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    public void testCall3() {
+        RouletteGame g = new RouletteGame();
+        ByteArrayInputStream in = new ByteArrayInputStream("odd\n".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        String expected = "odd";
+
+        String actual = g.call();
+
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    public void testCall4() {
+        RouletteGame g = new RouletteGame();
+        ByteArrayInputStream in = new ByteArrayInputStream("dozen1\ndozen2\ndozen3\n".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        String expected = "dozen";
+
+        Assert.assertEquals(expected,g.call());
+        Assert.assertEquals(expected,g.call());
+        Assert.assertEquals(expected,g.call());
+    }
+
+    @Test
+    public void testCall5() {
+        RouletteGame g = new RouletteGame();
+        ByteArrayInputStream in = new ByteArrayInputStream("column1\ncolumn2\ncolumn3\n".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        String expected = "column";
+
+        Assert.assertEquals(expected,g.call());
+        Assert.assertEquals(expected,g.call());
+        Assert.assertEquals(expected,g.call());
+    }
+
+    @Test
+    public void testCall6() {
+        RouletteGame g = new RouletteGame();
+        ByteArrayInputStream in = new ByteArrayInputStream("split\n1\n2\n".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        String expected = "split";
+
+        String actual = g.call();
+
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    public void testCall7() {
+        RouletteGame g = new RouletteGame();
+        ByteArrayInputStream in = new ByteArrayInputStream("line\n3\nline\n1".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        String expected = "line";
+
+        String actual = g.call();
+
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    public void testCall8() {
+        RouletteGame g = new RouletteGame();
+        ByteArrayInputStream in = new ByteArrayInputStream("street\n1\n".getBytes());
+        IOConsole con = new IOConsole(AnsiColor.BLUE, in, System.out);
+        g.setCon(con);
+        String expected = "street";
+
+        String actual = g.call();
+
+        Assert.assertEquals(expected,actual);
     }
 
     @Test

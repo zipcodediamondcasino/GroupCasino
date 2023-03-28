@@ -49,3 +49,4 @@ public class OldMaidPlayer extends CardPlayer {
         return Hand;
     }
 }
+

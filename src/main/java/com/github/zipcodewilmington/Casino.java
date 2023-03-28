@@ -1,11 +1,8 @@
 package com.github.zipcodewilmington;
 
 import com.github.zipcodewilmington.casino.CasinoAccount;
-import com.github.zipcodewilmington.casino.CasinoAccountManager;
 import com.github.zipcodewilmington.casino.Game;
 import com.github.zipcodewilmington.casino.Player;
-import com.github.zipcodewilmington.casino.games.baccarat.BaccaratGame;
-import com.github.zipcodewilmington.casino.games.baccarat.BaccaratPlayer;
 import com.github.zipcodewilmington.casino.games.blackjack.BlackjackGame;
 import com.github.zipcodewilmington.casino.games.blackjack.BlackjackPlayer;
 import com.github.zipcodewilmington.casino.games.coinflip.CoinFlipGame;
@@ -30,7 +27,7 @@ import java.util.ArrayList;
  * Created by leon on 7/21/2020.
  */
 public class Casino implements Runnable {
-    private final IOConsole console = new IOConsole(AnsiColor.BLUE);
+    private IOConsole console = new IOConsole(AnsiColor.BLUE);
     private ArrayList<CasinoAccount> accounts = new ArrayList<>();
     private CasinoAccount current;
 
@@ -38,7 +35,8 @@ public class Casino implements Runnable {
     public void run() {
         String arcadeDashBoardInput;
         load();
-        CasinoAccountManager casinoAccountManager = new CasinoAccountManager();
+        //accounts.add(new CasinoAccount(100000, "root", "admin"));
+        //CasinoAccountManager casinoAccountManager = new CasinoAccountManager();
         do{
             arcadeDashBoardInput = getLoginAccount();
             switch (arcadeDashBoardInput) {
@@ -201,5 +199,9 @@ public class Casino implements Runnable {
             }
         }
         console.println("Invalid login credentials");
+    }
+
+    public void setConsole(IOConsole con){
+        console = con;
     }
 }

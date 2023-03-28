@@ -5,11 +5,6 @@ import java.util.ArrayList;
 public class Deck {
     private ArrayList<Card> deck;
 
-    public Deck(int i){
-        deck = new ArrayList<Card>();
-
-    }
-
     //making it Deck(true) gives you a 52 card deck
     public Deck(boolean makeDeck){
         deck = new ArrayList<Card>();
@@ -33,10 +28,6 @@ public class Deck {
         deck = shuffled;
     }//lol
 
-    public void addCard(Card card){
-        deck.add(card);
-        }
-
     public String toString(){
         String output = "";
 
@@ -53,6 +44,9 @@ public class Deck {
         return cardToTake;
     }
 
+    public ArrayList<Card> getDeck(){
+        return deck;
+    }
 }//testing new commit
 
 
