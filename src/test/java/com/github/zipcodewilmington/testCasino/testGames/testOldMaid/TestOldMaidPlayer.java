@@ -30,26 +30,30 @@ public class TestOldMaidPlayer {
         Assert.assertNotNull(actual);
     }
 
-//    @Test
-//    public void testMatchCard(){
-//        ArrayList<Card> Hand = new ArrayList<>();
-//        Hand.add(new Card(Suit.SPADES, SIX));
-//        Hand.add(new Card(Suit.SPADES, SEVEN));
-//        Hand.add(new Card(Suit.HEARTS, TEN));
-//        Hand.add(new Card(Suit.SPADES, FIVE));
-//        Hand.add(new Card(Suit.HEARTS, FIVE));
-//
-//        ArrayList<Card> expectedRemaining = new ArrayList<>();
-//        expectedRemaining.add(new Card(Suit.SPADES, SIX));
-//        expectedRemaining.add(new Card(Suit.SPADES, SEVEN));
-//        expectedRemaining.add(new Card(Suit.HEARTS, TEN));
-//
-//        CasinoAccount Cas = new CasinoAccount();
-//        OldMaidPlayer old = new OldMaidPlayer(Cas);
-//        ArrayList<Card> actualRemaining = old.matchCard(Hand);
-//
+    @Test
+    public void testMatchCard(){
+        ArrayList<Card> Hand = new ArrayList<>();
+        Hand.add(new Card(Suit.SPADES, SIX));
+        Hand.add(new Card(Suit.SPADES, SEVEN));
+        Hand.add(new Card(Suit.HEARTS, TEN));
+        Hand.add(new Card(Suit.SPADES, FIVE));
+        Hand.add(new Card(Suit.HEARTS, FIVE));
+
+        ArrayList<Card> expectedRemaining = new ArrayList<>();
+        expectedRemaining.add(new Card(Suit.SPADES, SIX));
+        expectedRemaining.add(new Card(Suit.SPADES, SEVEN));
+        expectedRemaining.add(new Card(Suit.HEARTS, TEN));
+
+        CasinoAccount Cas = new CasinoAccount();
+        OldMaidPlayer old = new OldMaidPlayer(Cas);
+        ArrayList<Card> actualRemaining = old.matchCard(Hand);
+
+        for (int i = 0; i < actualRemaining.size(); i++){
+            Assert.assertEquals(expectedRemaining.get(i).getRank(), actualRemaining.get(i).getRank());
+            Assert.assertEquals(expectedRemaining.get(i).getSuit(), actualRemaining.get(i).getSuit());
+        }
 //        Assert.assertEquals(expectedRemaining, actualRemaining);
-//    }
+    }
 
     @Test
     public void testShuffle(){
