@@ -15,7 +15,7 @@ Diamond Casino currently includes 4 gambling games where users can wage bets wit
 
 ### Slots
 Designed and created by Seth Prentice.
-![](Link to gif)
+![](https://github.com/zipcodediamondcasino/GroupCasino/blob/working/Screen-Recording-2023-05-03-at-8.gif)
 
 ### Coin Flip
 Designed and created by Jacob Ciaffi.
